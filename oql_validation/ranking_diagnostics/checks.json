@@ -1,0 +1,91 @@
+[
+  {
+    "name": "simple_query:native_paging",
+    "passed": false,
+    "detail": {
+      "last_status": 200,
+      "returned": 150,
+      "last_response_if_error": null
+    }
+  },
+  {
+    "name": "simple_query:reranked_paging",
+    "passed": false,
+    "detail": {
+      "last_status": 400,
+      "returned": 100,
+      "last_response_if_error": {
+        "error": "Pagination error.",
+        "message": "Cursor value is invalid."
+      }
+    }
+  },
+  {
+    "name": "simple_query:continuation_without_rerank",
+    "passed": false,
+    "detail": {
+      "status": 400,
+      "response_if_error": {
+        "error": "Pagination error.",
+        "message": "Cursor value is invalid."
+      }
+    }
+  },
+  {
+    "name": "keyword_or_text:relevance_available",
+    "passed": false,
+    "detail": {
+      "status": 400,
+      "count": null,
+      "response_if_error": {
+        "oqo": {
+          "get_rows": "works",
+          "filter_rows": [
+            {
+              "join": "or",
+              "filters": [
+                {
+                  "column_id": "keywords.id",
+                  "value": "diabetic-retinopathy"
+                },
+                {
+                  "column_id": "title_and_abstract.search.exact",
+                  "value": "\"diabetic retinopathy\"",
+                  "operator": "has"
+                }
+              ]
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2003,
+              "operator": ">="
+            },
+            {
+              "column_id": "publication_year",
+              "value": 2023,
+              "operator": "<="
+            }
+          ],
+          "sort_by": [
+            {
+              "column_id": "relevance_score",
+              "direction": "desc"
+            }
+          ],
+          "per_page": 5
+        },
+        "validation": {
+          "valid": false,
+          "errors": [
+            {
+              "type": "relevance_sort_requires_search",
+              "message": "Sorting by 'relevance_score' requires a search clause (e.g. ?search=example or a *.search filter such as display_name.search:example).",
+              "location": "sort_by[0].column_id"
+            }
+          ],
+          "warnings": []
+        }
+      }
+    }
+  }
+]
