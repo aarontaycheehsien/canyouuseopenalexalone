@@ -27,6 +27,7 @@ PER_PAGE = 100
 MAX_REQUESTS = int(os.environ.get("OPENALEX_MAX_REQUESTS", "850"))
 REQUEST_COUNT = 0
 LOG = []
+API_KEY = os.environ.get("OPENALEX_API_KEY", "").strip()
 RUN_START = dt.datetime.now(dt.timezone.utc).isoformat()
 
 
@@ -93,7 +94,8 @@ def call(endpoint, payload, *, max_attempts=4):
         if REQUEST_COUNT >= MAX_REQUESTS:
             raise RuntimeError(f"Request cap of {MAX_REQUESTS} reached")
         req = Request(BASE + endpoint, data=data, method="POST", headers={
-            "Content-Type": "application/json", "User-Agent": "OpenAlex-legacy-union-proximity-study/1.0"
+            "Content-Type": "application/json", "User-Agent": "OpenAlex-legacy-union-proximity-study/1.0",
+            "Authorization": "Bearer " + API_KEY,
         })
         REQUEST_COUNT += 1
         started = time.monotonic()
@@ -143,6 +145,12 @@ def save_progress(counts):
 
 
 def main():
+    if not API_KEY:
+        raise SystemExit("OPENALEX_API_KEY not set. Refusing anonymous execution.")
+    # Invalidate only old *complete* union products until all nine branches succeed.
+    for stale in ("merged_work_ids.json.gz", "merged_work_ids.txt",
+                  "legacy_comparison.json", "reference_recall.json"):
+        (OUT / stale).unlink(missing_ok=True)
     source = INPUT.read_text(encoding="utf-8").strip()
     branches = split_branches(source)
     sha256 = hashlib.sha256(source.encode("utf-8")).hexdigest()
@@ -151,6 +159,7 @@ def main():
         "run_start_utc": RUN_START, "branch_count": len(branches),
         "per_page": PER_PAGE, "no_api_key_used": True,
         "method": "nine separate OQL POST searches with cursor pagination and ID union",
+        "authentication": "Authorization Bearer header from environment only; not logged",
     })
     stats = []
     all_ids = set()
@@ -162,6 +171,8 @@ def main():
                "status": "started", "started_utc": stamp()}
         current_ids = set()
         pages = 0
+        duplicates = 0
+        duplicate_examples = []
         try:
             # Avoid extra expensive validation requests: each execution validates OQL.
             cursor = "*"
@@ -189,7 +200,10 @@ def main():
                     if not work_id.startswith("W") or not work_id[1:].isdigit():
                         raise RuntimeError(f"Unexpected work ID: {work_id}")
                     if work_id in current_ids:
-                        raise RuntimeError(f"Duplicate work ID: {work_id}")
+                        duplicates += 1
+                        if len(duplicate_examples) < 10:
+                            duplicate_examples.append(work_id)
+                        continue
                     current_ids.add(work_id)
                 pages += 1
                 cursor = meta.get("next_cursor")
@@ -200,12 +214,14 @@ def main():
             if expected != len(current_ids):
                 raise RuntimeError(f"Expected {expected} but enumerated {len(current_ids)} unique IDs")
             rec.update(status="complete", total_unique=len(current_ids),
-                       api_reported_count=expected, pages=pages)
+                       api_reported_count=expected, pages=pages,
+                       duplicate_positions=duplicates, duplicate_examples=duplicate_examples)
             write_gz(OUT / (label + "_ids.json.gz"), sorted(current_ids))
             all_ids.update(current_ids)
         except Exception as e:
             rec.update(status="failed", error=str(e)[:1500], partial_unique=len(current_ids),
-                       pages=pages)
+                       pages=pages, duplicate_positions=duplicates,
+                       duplicate_examples=duplicate_examples)
             if current_ids:
                 write_gz(OUT / (label + "_partial_ids.json.gz"), sorted(current_ids))
             print(f"{label} FAILED: {e}", flush=True)
