@@ -1,0 +1,51 @@
+name: Run OpenAlex proximity union
+
+on:
+  push:
+    branches:
+      - experiment/legacy-union-proximity-20261012
+    paths:
+      - .github/workflows/run-openalex-proximity.yml
+      - run_legacy_proximity_union.py
+      - stansfield_pilot/queries/legacy_union_proximity_wildcards.oql
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  retrieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Execute all nine searches and merge OpenAlex work IDs
+        env:
+          OPENALEX_MAX_REQUESTS: '850'
+        run: python -u run_legacy_proximity_union.py
+      - name: Upload results even if some branches failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openalex-legacy-proximity-execution
+          path: stansfield_pilot/legacy_union_proximity_run/
+          if-no-files-found: warn
+      - name: Commit audit results to experiment branch
+        if: always()
+        run: |
+          if [ ! -d stansfield_pilot/legacy_union_proximity_run ]; then
+            echo "No generated files to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stansfield_pilot/legacy_union_proximity_run/
+          if ! git diff --cached --quiet; then
+            git commit -m "Archive OpenAlex nine-branch execution and merged work IDs"
+            git push
+          fi
