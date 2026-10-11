@@ -1,0 +1,41 @@
+name: Merge archived OpenAlex partial results
+
+on:
+  push:
+    branches:
+      - experiment/legacy-union-proximity-20261012
+    paths:
+      - .github/workflows/merge-partial-proximity.yml
+      - merge_partial_legacy_proximity.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Merge saved IDs without querying OpenAlex
+        run: python3 merge_partial_legacy_proximity.py
+      - name: Upload merged partial IDs and audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: openalex-partial-merged-ids
+          path: |
+            stansfield_pilot/legacy_union_proximity_run/partial_merged_work_ids.json.gz
+            stansfield_pilot/legacy_union_proximity_run/partial_merged_work_ids.txt
+            stansfield_pilot/legacy_union_proximity_run/partial_merge_summary.json
+      - name: Commit partial union data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stansfield_pilot/legacy_union_proximity_run/partial_*
+          if ! git diff --cached --quiet; then
+            git commit -m "Archive partial merged OpenAlex IDs and lower-bound recall"
+            git push
+          fi
