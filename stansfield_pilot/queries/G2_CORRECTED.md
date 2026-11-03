@@ -45,3 +45,7 @@ Recall is measured against the 130 current OpenAlex IDs in `reference_retrieval.
 - Recall is measured on the same known records that were used to design the country terms and the scoped `country is unknown` clause. It is an optimistic, in-sample estimate, not evidence of recall on unseen records.
 - The search is still a narrowed translation of the Embase strategy (Table 8 in O'Mara-Eves et al., 2026), not a direct one. For comparison, the fuller restoration in `PILOT_REPORT.md` retrieved 21,679 works with 125/131 recall.
 - Precision is unmeasured; no unlabelled records were screened.
+
+## Follow-up, 2 November 2026
+
+The [eight-strategy audit](../audit_2026-11-02/README.md) reproduced the G2 results above. Felfeli passes the diabetic/retinopathy proximity test but fails the screening-term block. Adding `unscreen*` and omitting the topic fallback recovered Felfeli and all other indexed benchmark studies in 3,892 results. That alternative was tuned on this benchmark.
