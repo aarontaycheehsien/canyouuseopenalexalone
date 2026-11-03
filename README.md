@@ -1,6 +1,6 @@
 # OpenAlex evidence synthesis experiments
 
-The reports on this branch use the Stansfield diabetic eye screening benchmark.
+The reports on this branch use the Stansfield diabetic eye screening benchmark. The [revised Substack draft](stansfield_pilot/substack/openalex-evidence-synthesis.md) explains how the searches changed and what the benchmark establishes.
 
 | Report | Evidence |
 |---|---|
