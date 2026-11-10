@@ -1,11 +1,6 @@
 name: Run OpenAlex proximity union
 
 on:
-  push:
-    branches:
-      - experiment/legacy-union-proximity-20261012
-    paths:
-      - .github/workflows/run-openalex-proximity.yml
   workflow_dispatch:
 
 permissions:
@@ -13,6 +8,7 @@ permissions:
 
 jobs:
   retrieve:
+    if: github.ref_type == 'branch' && github.ref_name != github.event.repository.default_branch
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
@@ -23,6 +19,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Execute all nine searches with secret authentication
+        id: retrieve
         env:
           OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
           OPENALEX_MAX_REQUESTS: '980'
@@ -31,16 +28,17 @@ jobs:
             echo "OPENALEX_API_KEY repository secret is missing; no requests performed."
             exit 1
           fi
+          echo "started=true" >> "$GITHUB_OUTPUT"
           python -u run_legacy_proximity_union.py
       - name: Upload results even if some branches failed
-        if: always()
+        if: always() && steps.retrieve.outputs.started == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: openalex-legacy-proximity-authenticated
           path: stansfield_pilot/legacy_union_proximity_run/
           if-no-files-found: warn
       - name: Commit audit results to experiment branch
-        if: always()
+        if: always() && steps.retrieve.outputs.started == 'true'
         run: |
           if [ ! -d stansfield_pilot/legacy_union_proximity_run ]; then
             echo "No generated files to commit"

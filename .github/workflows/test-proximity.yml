@@ -1,0 +1,23 @@
+name: Test proximity archive tools
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - experiment/legacy-union-proximity-20261012
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run offline regression and archive checks
+        run: python -m unittest -v test_legacy_proximity

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Execute nine frozen legacy-proximity OQL branches and deduplicate their work IDs.
 
-Uses standard library only; no API key. Results written under stansfield_pilot/
-legacy_union_proximity_run/. Failed or incomplete branches never count as zero.
+Uses the standard library and OPENALEX_API_KEY. Results written under
+stansfield_pilot/legacy_union_proximity_run/. Incomplete runs exit unsuccessfully;
+their observed IDs remain available for an explicitly partial offline merge.
 """
 from __future__ import annotations
 
@@ -13,7 +14,6 @@ import hashlib
 import json
 import os
 from pathlib import Path
-import random
 import time
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
@@ -21,7 +21,6 @@ from urllib.error import HTTPError, URLError
 ROOT = Path(__file__).resolve().parent
 INPUT = ROOT / "stansfield_pilot/queries/legacy_union_proximity_wildcards.oql"
 OUT = ROOT / "stansfield_pilot/legacy_union_proximity_run"
-OUT.mkdir(exist_ok=True, parents=True)
 BASE = "https://api.openalex.org"
 PER_PAGE = 100
 MAX_REQUESTS = int(os.environ.get("OPENALEX_MAX_REQUESTS", "850"))
@@ -145,23 +144,33 @@ def save_progress(counts):
 
 
 def main():
+    global RUN_START, REQUEST_COUNT, LOG
     if not API_KEY:
         raise SystemExit("OPENALEX_API_KEY not set. Refusing anonymous execution.")
-    # Invalidate only old *complete* union products until all nine branches succeed.
-    for stale in ("merged_work_ids.json.gz", "merged_work_ids.txt",
-                  "legacy_comparison.json", "reference_recall.json"):
-        (OUT / stale).unlink(missing_ok=True)
     source = INPUT.read_text(encoding="utf-8").strip()
     branches = split_branches(source)
+    RUN_START = stamp()
+    REQUEST_COUNT = 0
+    LOG = []
+    OUT.mkdir(exist_ok=True, parents=True)
+    # Every output in this folder must describe this run, including failures.
+    for stale in OUT.glob("branch_*_ids.json.gz"):
+        stale.unlink()
+    for stale in ("merged_work_ids.json.gz", "merged_work_ids.txt",
+                  "legacy_comparison.json", "reference_recall.json",
+                  "partial_merged_work_ids.json.gz", "partial_merged_work_ids.txt",
+                  "partial_merge_summary.json", "final_summary.json"):
+        (OUT / stale).unlink(missing_ok=True)
     sha256 = hashlib.sha256(source.encode("utf-8")).hexdigest()
     save("run_manifest.json", {
         "input": str(INPUT.relative_to(ROOT)), "input_sha256": sha256,
         "run_start_utc": RUN_START, "branch_count": len(branches),
-        "per_page": PER_PAGE, "no_api_key_used": True,
+        "per_page": PER_PAGE, "no_api_key_used": False,
         "method": "nine separate OQL POST searches with cursor pagination and ID union",
         "authentication": "Authorization Bearer header from environment only; not logged",
     })
     stats = []
+    save_progress(stats)
     all_ids = set()
     for index, expression in enumerate(branches, 1):
         label = f"branch_{index:02d}"
@@ -222,8 +231,7 @@ def main():
             rec.update(status="failed", error=str(e)[:1500], partial_unique=len(current_ids),
                        pages=pages, duplicate_positions=duplicates,
                        duplicate_examples=duplicate_examples)
-            if current_ids:
-                write_gz(OUT / (label + "_partial_ids.json.gz"), sorted(current_ids))
+            write_gz(OUT / (label + "_partial_ids.json.gz"), sorted(current_ids))
             print(f"{label} FAILED: {e}", flush=True)
         rec["finished_utc"] = stamp()
         stats.append(rec)
@@ -266,7 +274,8 @@ def main():
                                  "note": "Union is withheld if any branch failed; incomplete branches are not zero."})
     save_progress(stats)
     print(json.dumps(json.loads((OUT/"final_summary.json").read_text()), indent=2), flush=True)
+    return 0 if complete else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
