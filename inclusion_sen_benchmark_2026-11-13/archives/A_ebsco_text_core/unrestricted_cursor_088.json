@@ -1,0 +1,807 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/",
+  "body": {
+   "oql": "get works where date >= (2000-01-01) and date <= (2021-04-08) and title-abstract has (\"student*\" OR \"pupil*\" OR \"child*\" OR \"youth*\" OR \"young*\") and (title has (\"need*\" OR \"special*\" OR \"additional*\") or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other))) and title-abstract has (\"integrat*\" OR \"immers*\" OR \"inclus*\" OR \"mainstream*\" OR \"placement*\") and title-abstract has (\"effect*\" OR \"trial*\" OR \"experiment*\" OR \"control*\" OR \"random*\" OR \"impact*\" OR \"compar*\" OR \"difference*\")",
+   "per_page": 100,
+   "sort": "publication_date:asc",
+   "select": "id,doi,display_name,publication_date",
+   "cursor": "IlsxNDIwMDcwNDAwMDAwLCA5My4wLCAxLCAnaHR0cHM6Ly9vcGVuYWxleC5vcmcvVzIyMTM2OTMwMzcnXSI="
+  }
+ },
+ "started_utc": "2026-11-12T16:29:31.810444+00:00",
+ "finished_utc": "2026-11-12T16:29:32.529834+00:00",
+ "status": 200,
+ "response": {
+  "meta": {
+   "count": 18946,
+   "db_response_time_ms": 363,
+   "page": null,
+   "per_page": 100,
+   "next_cursor": "IlsxNDIwMDcwNDAwMDAwLCAnLUluZmluaXR5JywgMCwgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1cyMjc2OTMzODU2J10i",
+   "groups_count": null,
+   "x_query": {
+    "oql": "get works from 2000-01-01 through 2021-04-08 with ((student* OR pupil* OR child* OR youth* OR young*) AND (integrat* OR immers* OR inclus* OR mainstream* OR placement*) AND (effect* OR trial* OR experiment* OR control* OR random* OR impact* OR compar* OR difference*)) in the title or abstract where title has (need* OR special* OR additional*) or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other)), oldest first",
+    "x_new_oql": "get works from 2000-01-01 through 2021-04-08 with ((student* OR pupil* OR child* OR youth* OR young*) AND (integrat* OR immers* OR inclus* OR mainstream* OR placement*) AND (effect* OR trial* OR experiment* OR control* OR random* OR impact* OR compar* OR difference*)) in the title or abstract where title has (need* OR special* OR additional*) or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other)), oldest first",
+    "oqo": {
+     "get_rows": "works",
+     "filter_rows": [
+      {
+       "column_id": "from_publication_date",
+       "value": "2000-01-01"
+      },
+      {
+       "column_id": "to_publication_date",
+       "value": "2021-04-08"
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "student*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "pupil*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "child*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "youth*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "young*",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "display_name.search.exact",
+         "value": "need*",
+         "operator": "has"
+        },
+        {
+         "column_id": "display_name.search.exact",
+         "value": "special*",
+         "operator": "has"
+        },
+        {
+         "column_id": "display_name.search.exact",
+         "value": "additional*",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"special*\"~5~\"need*\"",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"additional*\"~5~\"need*\"",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"educational*\"~5~\"need*\"",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "integrat*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "immers*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "inclus*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "mainstream*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "placement*",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "effect*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "trial*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "experiment*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "control*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "random*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "impact*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "compar*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "difference*",
+         "operator": "has"
+        }
+       ]
+      }
+     ],
+     "sort_by": [
+      {
+       "column_id": "publication_date",
+       "direction": "asc"
+      }
+     ]
+    },
+    "url": null,
+    "order": "oldest first",
+    "order_default": false
+   },
+   "cost": {
+    "credits": 10,
+    "usd": 0.001,
+    "steps": [
+     {
+      "credits": 10,
+      "what": "a search"
+     }
+    ]
+   },
+   "cost_usd": 0.001
+  },
+  "results": [
+   {
+    "id": "https://openalex.org/W2236598826",
+    "doi": "https://doi.org/10.2991/ssemse-15.2015.276",
+    "display_name": "The Innovation and Development of School-running Mode of Continuing Education in the Internet Age",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2265550542",
+    "doi": "https://doi.org/10.26021/808",
+    "display_name": "Fostering inclusive relationships; students with special needs, wh\u0101nau, teachers and allied health professionals",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2280339325",
+    "doi": null,
+    "display_name": "ENHANCING INCLUSION THROUGH TEACHERS\u2019 SELF-ASSESSMENT",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2295426939",
+    "doi": "https://doi.org/10.1007/978-94-6300-199-1_2",
+    "display_name": "Teachers\u2019 Aides\u2019 Perceptions of their Training Needs in Relation to their Roles in State Secondary Schools in Victoria",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2310562593",
+    "doi": null,
+    "display_name": "Nontraditional Pre-service Teachers: What They Learn from Inclusion Literature",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2465236783",
+    "doi": "https://doi.org/10.1002/pra2.2015.145052010017",
+    "display_name": "Breaking traditional barriers: Collaboration, impact, and information technology in the humanities",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2531765026",
+    "doi": "https://doi.org/10.1007/978-94-6300-148-9_30",
+    "display_name": "Looking to the Future \u2013 Exploring the need to Address Bullying in Higher Education",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2540181881",
+    "doi": null,
+    "display_name": "Family therapist training credentialing and working with children: A modified Delphi study reviewed",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2554463147",
+    "doi": null,
+    "display_name": "Impact of Medical Education Technology Workshops in a Rural Medical College of Bihar: A Questionnaire Study",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2613440287",
+    "doi": null,
+    "display_name": "Changing the School to Prison Pipeline: Integrating Trauma Informed Care in the New York City School System, in Collected Essays Impact: Threat of Economic Inequality",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2620431916",
+    "doi": null,
+    "display_name": "Diversity, special needs and inclusion in early years education",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2728776190",
+    "doi": null,
+    "display_name": "EFEKTIFITAS MEDIA PEMBELAJARAN AUDIO MELALUI CERITA PENDIDIKAN BERKARAKTER UNTUK TUNANETRA JENJANG SMP",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2785916929",
+    "doi": "https://doi.org/10.14413/herj.2015.02.03",
+    "display_name": "Teachers' Perception About the Inclusive Education and Attention Deficit Hyperactivity Disorder: Comparison Between Northwest and Southeast Romanian Teachers",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2917021563",
+    "doi": null,
+    "display_name": "TPACK: a missing piece of the technology puzzle among special education (hearing impairment) teachers",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2951609308",
+    "doi": null,
+    "display_name": "MANAJEMEN PENDIDIKAN SEKOLAH INKLUSI UNTUK MENINGKATKAN MUTU HASIL BELAJAR ANAK BERKEBUTUHAN KHUSUS DI SEKOLAH DASAR TAMANSISWA IBU PAWIYATAN YOGYAKARTA TAHUN AJARAN 2012/2013",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W946133653",
+    "doi": null,
+    "display_name": "The Branch Campus Contribution to the Mission of the Main Campus in Kentucky",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W953999683",
+    "doi": "https://doi.org/10.1007/978-3-319-17506-5_15",
+    "display_name": "Poor Children, Poor Services, Poor Outcomes: Child Poverty and Its Impact on Referral and Placement in Public Care System in Hungary",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1864481425",
+    "doi": "https://doi.org/10.34917/7777325",
+    "display_name": "Engineering the Path to Higher-Order Thinking in Elementary Education: A Problem-Based Learning Approach for STEM Integration",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2002951350",
+    "doi": "https://doi.org/10.1080/00221546.2015.11777372",
+    "display_name": "Gap Year: How Delaying College Changes People in Ways the World Needs",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2164168143",
+    "doi": null,
+    "display_name": "TRADITIONS AND CHALLENGES SPECIAL SUPPORT IN SWEDISH INDEPENDENT COMPULSORY SCHOOLS",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1527787562",
+    "doi": "https://doi.org/10.1159/000436970",
+    "display_name": "More Research Is Needed for Local Allergic Rhinitis",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1750207432",
+    "doi": "https://doi.org/10.4103/0974-2069.164674",
+    "display_name": "Universal heart coverage for children with heart disease in India",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1897351583",
+    "doi": null,
+    "display_name": "NATIONAL DIABETES ACTION PLAN OF PAKISTAN: NEED AND CHALLENGES",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2583457985",
+    "doi": null,
+    "display_name": "Factors Influencing the Success of Inclusive Practices in Singaporean Schools: Shadow Teachers Perspectives",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2784516097",
+    "doi": "https://doi.org/10.25904/1912/3555",
+    "display_name": "Presence and Potential for Puberty Education in the Australian Curriculum, from Foundation to Year 10: A Socio-Educational Analysis of Knowledge Content and Cognitive Patterns",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W777834442",
+    "doi": null,
+    "display_name": "The inclusion of the family members as primary carers in music therapy sessions with children in a special education centre : how does this help the child and the carer?",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2531320495",
+    "doi": null,
+    "display_name": "Co-teaching in higher education: Effects on pre-service educators' academic growth and attitudes towards inclusion in special education",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1824870163",
+    "doi": null,
+    "display_name": "Empirical studies in the economics of education",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2280380056",
+    "doi": null,
+    "display_name": "Closing the Loop: A Study of How the National Survey of Student Engagement (NSSE) Is Used for Decision-Making and Planning in Student Affairs.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W94180813",
+    "doi": "https://doi.org/10.25549/usctheses-m3175",
+    "display_name": "Investigating how general education middle school teachers support the social inclusion of students with special needs",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1162633482",
+    "doi": "https://doi.org/10.36837/chapman.000007",
+    "display_name": "An Application of the Autism Management Platform to Tracking Student Progress in the Special Education Environment",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1805480491",
+    "doi": null,
+    "display_name": "An exploration of the perceptions of Emotional Literacy Support Assistants (ELSAs) of the ELSA-pupil relationship",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2295193743",
+    "doi": "https://doi.org/10.2139/ssrn.2600650",
+    "display_name": "Bridging the Gap between Knowledge and Application in Management Education \u2013 Challenges Ahead",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2333360831",
+    "doi": "https://doi.org/10.1097/pep.0000000000000117",
+    "display_name": "Commentary on \u201cMaximal Respiratory Pressures of Healthy Children: Comparison Between Obtained and Predicted Values\u201d",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2420007427",
+    "doi": null,
+    "display_name": "Effect of assistive technology on teaching and learning of intergrated English among visually impaired learners in special secondary schools in Kenya",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2532102211",
+    "doi": "https://doi.org/10.15781/t26592",
+    "display_name": "Removal, isolation, and discipline in Texas schools : an ethnographic study of a 6th-12th grade disciplinary alternative education program",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2924932365",
+    "doi": "https://doi.org/10.58809/sbvj7254",
+    "display_name": "Examining The Relationship Of Demographic Variables, Media Exposure, And Motivation On Second Language Acquisition",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1204520751",
+    "doi": null,
+    "display_name": "Marking Legal Status: A High School\u2019s Response to Issues of Documentation and the Needs of Undocumented Students",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1845436798",
+    "doi": "https://doi.org/10.18357/ijcyfs.63201513558",
+    "display_name": "INTRODUCTION TO THE SPECIAL ISSUE ON INCLUSION",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2177305094",
+    "doi": null,
+    "display_name": "Education for Reintegration of Ex-combatants into Civilian Life in Colombia: An analysis of Adult Education Programmes in Medell\u00edn and Piedecuesta",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2217077990",
+    "doi": "https://doi.org/10.2139/ssrn.2629009",
+    "display_name": "Motor Trend in Gross Among Students Preschool Special Education Program Integration of Learning Problems",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2344509378",
+    "doi": null,
+    "display_name": "An examination of the agreement between principals and teachers on teaching style, needs of students, and class placement",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2395692013",
+    "doi": null,
+    "display_name": "Nobody's children: an exploration into a sense of belonging of adults who experienced institutional out-of-home care as children",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2404818764",
+    "doi": "https://doi.org/10.15781/t2zh0x",
+    "display_name": "The experience of African American parents with the special education system : a review of literature",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2525655032",
+    "doi": null,
+    "display_name": "The relationship between per pupil expenditure in Maricopa County K-12 public school districts and student under preparedness at the post secondary level",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2526135765",
+    "doi": null,
+    "display_name": "Child Victims and Restorative Justice: A Needs\u2011Rights Model",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2564703040",
+    "doi": null,
+    "display_name": "The Role of Implicit Bias in the Overrepresentation of Males within the Public School System",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2582866441",
+    "doi": null,
+    "display_name": "Effect of Collaborative Learning on Learning Outcomes of Students with Special Needs in Inclusive School",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2594162393",
+    "doi": null,
+    "display_name": "The development of a clinical reflective practice model for paediatric nursing specialist students in Indonesia using an action research approach",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2611809825",
+    "doi": null,
+    "display_name": "Interrogating the discursive constitution of the \u2018normal\u2019 in \u2018inclusive\u2019 early childhood education",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2623807006",
+    "doi": null,
+    "display_name": "Inclusi\u00f3n educativa: percepciones de los docentes a partir de la aprobaci\u00f3n de la Ley Org\u00e1nica de Educaci\u00f3n Intercultural en una instituci\u00f3n p\u00fablica y una instituci\u00f3n privada de la ciudad de Quito",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2897016309",
+    "doi": "https://doi.org/10.7939/r33t9dc2b",
+    "display_name": "A Multiple Case Study of Caregivers\u2019 Experiences of a Psychoeducational Support Group for Caregivers of Children with Fetal Alcohol Spectrum Disorders (FASD): An Embedded Mixed Methods Study",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W101032887",
+    "doi": null,
+    "display_name": "Partial Inclusion Effects on Students with Special Needs in English",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1020537090",
+    "doi": null,
+    "display_name": "A Model to Incorporate Meaningful Community Engaged Learning Opportunities into Large Courses.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1031291255",
+    "doi": null,
+    "display_name": "En gymnasieskola f\u00f6r alla ungdomar? : En fallstudie ur ett specialpedagogiskt perspektiv",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1052421397",
+    "doi": null,
+    "display_name": "\u0420\u0410\u0417\u0412\u0418\u0422\u0418\u0415 \u0418 \u0412\u041e\u0421\u041f\u0418\u0422\u0410\u041d\u0418\u0415 \u0414\u0415\u0422\u0415\u0419 \u0421 \u041e\u0421\u041e\u0411\u042b\u041c\u0418 \u041e\u0411\u0420\u0410\u0417\u041e\u0412\u0410\u0422\u0415\u041b\u042c\u041d\u042b\u041c\u0418 \u041f\u041e\u0422\u0420\u0415\u0411\u041d\u041e\u0421\u0422\u042f\u041c\u0418 \u0421\u0420\u0415\u0414\u0421\u0422\u0412\u0410\u041c\u0418 \u0418\u0421\u041a\u0423\u0421\u0421\u0422\u0412\u0410",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1084363197",
+    "doi": "https://doi.org/10.2991/emim-15.2015.228",
+    "display_name": "Study and Practice on Carrying out Teach-Learn-Do Amalgamation in Specialized Course The Utomobile Engine Electronic Control Technology",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1165927518",
+    "doi": null,
+    "display_name": "An Assessment of a Middle School Teachers' Efforts to Integrate Technology Effectively",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W130884765",
+    "doi": null,
+    "display_name": "The Use of Tableau to Increase the On-Task Behavior of Students with Language-Based Learning Disabilities in Inclusive Language Arts Settings: An Initial Study",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1422968639",
+    "doi": null,
+    "display_name": "Experience and knowledge of preschool teachers about kids with special needs in the regular sections of kindergarten.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1454273994",
+    "doi": null,
+    "display_name": "Engaging San Francisco\u2019s Western Addition in a Community Needs Assessment: A Field Work Report",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1469766066",
+    "doi": null,
+    "display_name": "The Environmental Health of the Autistic Student in the Public School Classroom",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1482701115",
+    "doi": "https://doi.org/10.2139/ssrn.2573484",
+    "display_name": "La Crisis De La Educaciin Musical En Rusia Y Maneras De Salir. El Conflicto De Los Puntos De Vista Dentro De La Comunidad Professional (The Crisis of Musical Education in Russia and Way of Solving. The Conflict of Musical Professional Community's Points of View)",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1509851433",
+    "doi": null,
+    "display_name": "Why there is a need for a French Immersion Department Head in a dual track school",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1548066655",
+    "doi": null,
+    "display_name": "Demonstration of meeting the 2014 council for the accreditation of counseling and related educational programs core and the student affairs/college counseling specialty standards via five major artifacts",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1619004568",
+    "doi": "https://doi.org/10.13016/m2j345",
+    "display_name": "Teaching For Inclusion: The Effects Of A Professional Development Course For Secondary General And Special Education Mathematics Teachers For Increasing Teacher Knowledge And Self-Efficacy In Geometry",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1706173075",
+    "doi": null,
+    "display_name": "Point of view of kindergarten teachers and their assistants to working with special needs children in regular groups",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1717173295",
+    "doi": null,
+    "display_name": "Design process for innovation in pharmaceutical packaging: reviewing needs and modes of activity",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1872268084",
+    "doi": null,
+    "display_name": "Finding Childcare for the Disabled Child: The Process and Decisions Through the Primary Caregiver\u2019s Lens",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1884274534",
+    "doi": null,
+    "display_name": "Can whole-class intervention positively enhance executive functioning and specifically self -regulation in the classroom? A cognitive neuropsychology based enquiry",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1898443335",
+    "doi": null,
+    "display_name": "Many Years of Adoption of the African and Children\u2019s Charter: Need to Hasten Efforts to End Child Marriage in Africa",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1902739524",
+    "doi": null,
+    "display_name": "\u201dVi m\u00e5ste alla l\u00e4ra oss mer\u201d : En normkritisk studie om blivande specialpedagogers och speciall\u00e4rares kunskaper om och syn p\u00e5 ADHD.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1913021544",
+    "doi": "https://doi.org/10.13140/rg.2.2.11093.68323",
+    "display_name": "Empowering the Learner; Ensuring curriculum access for all",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1914076160",
+    "doi": null,
+    "display_name": "Occupation-based fieldwork: The importance of an occupational science perspective when designing an international occupational therapy fieldwork experience",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1951333672",
+    "doi": null,
+    "display_name": "Personal conceptions and attitudes of teachers and special education teachers towards working with pupils with special needs",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W1977043433",
+    "doi": "https://doi.org/10.7243/2053-7212-2-1",
+    "display_name": "Role of histoacryl in controlling hemorrhage during needlescopic thoracic sypathectomy",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2024103916",
+    "doi": "https://doi.org/10.2991/icetem-15.2015.7",
+    "display_name": "Study on Depth Fusion Practice Mechanism between Enterprises and Colleges in Interior Interior design Specialty",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2064982151",
+    "doi": "https://doi.org/10.1016/j.carage.2014.12.006",
+    "display_name": "Experts Predict: What's Ahead for PA/LTC in 2015?",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2081232970",
+    "doi": "https://doi.org/10.4103/0019-5545.148508",
+    "display_name": "Psychiatrists need a Freud-chip in their psyche to be well-rounded",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2182299887",
+    "doi": null,
+    "display_name": "Images of (Special) Education? Independent Schools\u2019 Descriptions of their Special Educational Work.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2182397362",
+    "doi": "https://doi.org/10.13140/rg.2.1.4998.0322",
+    "display_name": "Moving the Needle on Justice Reform: A Report on the American Justice Summit 2014",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2187062348",
+    "doi": null,
+    "display_name": "To Determine the Extend to which Learning Resources Influence the Implementation of Inclusive Education in Selected Public Primary Schools in Trans - Nzoia County,Kenya",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2199329396",
+    "doi": null,
+    "display_name": "#PB5008: Pinterest, social creation and teaching the new publishing skills",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2214800353",
+    "doi": null,
+    "display_name": "Investigation into mathematics instruction for learners with learning difficulties",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2219074653",
+    "doi": null,
+    "display_name": "De la classe \u00ab ordinaire \u00bb \u00e0 la CLIS 1 : trois exp\u00e9riences subjectives de la difficult\u00e9 scolaire handicapante : \u00e9tude longitudinale",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2237320636",
+    "doi": null,
+    "display_name": "THE DEVELOPMENT OF INCLUSIVE EDUCATION IN THE U.S. AND EFFECTIVE CURRENT PRACTICES",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2250019006",
+    "doi": null,
+    "display_name": "\u0421\u0443\u0449\u043d\u043e\u0441\u0442\u043d\u044b\u0435 \u0445\u0430\u0440\u0430\u043a\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043a\u0438 \u0441\u0430\u043c\u043e\u043e\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u0438\u044f \u043b\u0438\u0447\u043d\u043e\u0441\u0442\u0438 \u0432 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0435 \u0441\u043c\u044b\u0441\u043b\u043e\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2252564115",
+    "doi": null,
+    "display_name": "Mothers' mental health evaluations in foster care practice: A social constructionist, qualitative data-mining study",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2253235878",
+    "doi": null,
+    "display_name": "LET'S PLAY INTO THE ENGLISH CLASSROOM",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2253440857",
+    "doi": "https://doi.org/10.25419/rcsi.10820243",
+    "display_name": "Medical Students Workload: Implication to the European Credit Transfer and Accumulation System in Integrated PBL Curriculum.",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2254253485",
+    "doi": null,
+    "display_name": "Adapting Early Childhood Curricula for Children with Special Needs (9th edition)",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2260615250",
+    "doi": null,
+    "display_name": "Even Small Countries Need Systemic Regional Governance",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2261465025",
+    "doi": null,
+    "display_name": "\u0418\u043d\u043a\u043b\u044e\u0437\u0438\u0432\u043d\u043e\u0435 \u043e\u0431\u0443\u0447\u0435\u043d\u0438\u0435 \u0441\u0442\u0443\u0434\u0435\u043d\u0442\u043e\u0432 \u0443\u043d\u0438\u0432\u0435\u0440\u0441\u0438\u0442\u0435\u0442\u0430: \u043a\u043e\u043c\u043f\u043b\u0435\u043a\u0441 \u043d\u0430\u0443\u0447\u043d\u044b\u0445 \u043f\u043e\u0434\u0445\u043e\u0434\u043e\u0432",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2262456435",
+    "doi": null,
+    "display_name": "\u0420\u0435\u0430\u043b\u0438\u0437\u0430\u0446\u0438\u044f \u0438\u043d\u0434\u0438\u0432\u0438\u0434\u0443\u0430\u043b\u044c\u043d\u043e\u0439 \u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u043d\u043e\u0439 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u044b \u0440\u0435\u0431\u0435\u043d\u043a\u0430 \u0434\u043e\u0448\u043a\u043e\u043b\u044c\u043d\u043e\u0433\u043e \u0432\u043e\u0437\u0440\u0430\u0441\u0442\u0430",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2268352059",
+    "doi": null,
+    "display_name": "Test problems in physiology state licensing examination KROK-1",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2270461467",
+    "doi": null,
+    "display_name": "Making Oral Communication a Successful Part of the Common Core",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2271355064",
+    "doi": null,
+    "display_name": "A study to explore the role of community disability workers in facilitating livelihood opportunities for disabled youth in rural areas of Southern Botswana",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2273268563",
+    "doi": null,
+    "display_name": "\u0422\u0435\u0441\u0442\u043e\u0432\u0430\u044f \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044f \u043b\u0438\u043d\u0433\u0432\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0441\u043f\u043e\u0441\u043e\u0431\u043d\u043e\u0441\u0442\u0435\u0439 \u0443\u0447\u0430\u0449\u0438\u0445\u0441\u044f \u043f\u043e \u0442\u0430\u0442\u0430\u0440\u0441\u043a\u043e\u043c\u0443 \u044f\u0437\u044b\u043a\u0443",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2273726220",
+    "doi": "https://doi.org/10.26021/10015",
+    "display_name": "Effectiveness of Internet-based and Mobile phone-based interventions to achieve smoking cessation for adolescent and adult smokers: a meta-analysis",
+    "publication_date": "2015-01-01"
+   },
+   {
+    "id": "https://openalex.org/W2276933856",
+    "doi": "https://doi.org/10.4071/2015dpc-tp25",
+    "display_name": "Next generation thin film polymers for WLP applications and their mechanical and electrical characterization",
+    "publication_date": "2015-01-01"
+   }
+  ],
+  "group_by": []
+ },
+ "attempts": []
+}

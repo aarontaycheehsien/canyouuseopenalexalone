@@ -1,0 +1,807 @@
+{
+ "request": {
+  "method": "POST",
+  "path": "/",
+  "body": {
+   "oql": "get works where date >= (2000-01-01) and date <= (2021-04-08) and title-abstract has (\"student*\" OR \"pupil*\" OR \"child*\" OR \"youth*\" OR \"young*\") and (title has (\"need*\" OR \"special*\" OR \"additional*\") or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other))) and title-abstract has (\"integrat*\" OR \"immers*\" OR \"inclus*\" OR \"mainstream*\" OR \"placement*\") and title-abstract has (\"effect*\" OR \"trial*\" OR \"experiment*\" OR \"control*\" OR \"random*\" OR \"impact*\" OR \"compar*\" OR \"difference*\")",
+   "per_page": 100,
+   "sort": "publication_date:asc",
+   "select": "id,doi,display_name,publication_date",
+   "cursor": "IlsxNDg3Mjg5NjAwMDAwLCA5Ny4wLCAxMywgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1cyNTg3ODk1OTg2J10i"
+  }
+ },
+ "started_utc": "2026-11-12T16:29:54.544678+00:00",
+ "finished_utc": "2026-11-12T16:29:55.325479+00:00",
+ "status": 200,
+ "response": {
+  "meta": {
+   "count": 18946,
+   "db_response_time_ms": 372,
+   "page": null,
+   "per_page": 100,
+   "next_cursor": "IlsxNDg5OTY4MDAwMDAwLCA5OS4wLCAzMywgJ2h0dHBzOi8vb3BlbmFsZXgub3JnL1cyNTkzNzEzNjk2J10i",
+   "groups_count": null,
+   "x_query": {
+    "oql": "get works from 2000-01-01 through 2021-04-08 with ((student* OR pupil* OR child* OR youth* OR young*) AND (integrat* OR immers* OR inclus* OR mainstream* OR placement*) AND (effect* OR trial* OR experiment* OR control* OR random* OR impact* OR compar* OR difference*)) in the title or abstract where title has (need* OR special* OR additional*) or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other)), oldest first",
+    "x_new_oql": "get works from 2000-01-01 through 2021-04-08 with ((student* OR pupil* OR child* OR youth* OR young*) AND (integrat* OR immers* OR inclus* OR mainstream* OR placement*) AND (effect* OR trial* OR experiment* OR control* OR random* OR impact* OR compar* OR difference*)) in the title or abstract where title has (need* OR special* OR additional*) or abstract has ((\"special*\" and \"need*\" within 5 words of each other) OR (\"additional*\" and \"need*\" within 5 words of each other) OR (\"educational*\" and \"need*\" within 5 words of each other)), oldest first",
+    "oqo": {
+     "get_rows": "works",
+     "filter_rows": [
+      {
+       "column_id": "from_publication_date",
+       "value": "2000-01-01"
+      },
+      {
+       "column_id": "to_publication_date",
+       "value": "2021-04-08"
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "student*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "pupil*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "child*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "youth*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "young*",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "display_name.search.exact",
+         "value": "need*",
+         "operator": "has"
+        },
+        {
+         "column_id": "display_name.search.exact",
+         "value": "special*",
+         "operator": "has"
+        },
+        {
+         "column_id": "display_name.search.exact",
+         "value": "additional*",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"special*\"~5~\"need*\"",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"additional*\"~5~\"need*\"",
+         "operator": "has"
+        },
+        {
+         "column_id": "abstract.search.exact",
+         "value": "\"educational*\"~5~\"need*\"",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "integrat*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "immers*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "inclus*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "mainstream*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "placement*",
+         "operator": "has"
+        }
+       ]
+      },
+      {
+       "join": "or",
+       "filters": [
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "effect*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "trial*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "experiment*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "control*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "random*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "impact*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "compar*",
+         "operator": "has"
+        },
+        {
+         "column_id": "title_and_abstract.search.exact",
+         "value": "difference*",
+         "operator": "has"
+        }
+       ]
+      }
+     ],
+     "sort_by": [
+      {
+       "column_id": "publication_date",
+       "direction": "asc"
+      }
+     ]
+    },
+    "url": null,
+    "order": "oldest first",
+    "order_default": false
+   },
+   "cost": {
+    "credits": 10,
+    "usd": 0.001,
+    "steps": [
+     {
+      "credits": 10,
+      "what": "a search"
+     }
+    ]
+   },
+   "cost_usd": 0.001
+  },
+  "results": [
+   {
+    "id": "https://openalex.org/W2588063634",
+    "doi": "https://doi.org/10.1007/s12070-017-1095-4",
+    "display_name": "Knowledge, Attitude of Sikkim Primary School Teachers About Paediatric Hearing Loss",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W4416619409",
+    "doi": "https://doi.org/10.1108/dl-02-2017-0003",
+    "display_name": "Applying Adult Learning Principles to Online Course Design",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W4416619509",
+    "doi": "https://doi.org/10.1108/dl-02-2017-0005",
+    "display_name": "Richard Clark\u2019s \u201cMere Vehicles\u201d Debate",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W2228876302",
+    "doi": "https://doi.org/10.26180/4663867",
+    "display_name": "Early childhood inclusive education in Thailand: a critical analysis of beliefs, knowledge, skills and practices",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W4416619492",
+    "doi": "https://doi.org/10.1108/dl-02-2017-0001",
+    "display_name": "Distance Education and Jamaica\u2019s Higher Education",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W7112995918",
+    "doi": null,
+    "display_name": "Enabling and including young people with complex and intense needs: Presentation of Enablin+ project",
+    "publication_date": "2017-02-17"
+   },
+   {
+    "id": "https://openalex.org/W2588187850",
+    "doi": "https://doi.org/10.1002/9781118768778.ch20",
+    "display_name": "International Perspectives on Teacher Education for Inclusion",
+    "publication_date": "2017-02-18"
+   },
+   {
+    "id": "https://openalex.org/W2590434387",
+    "doi": "https://doi.org/10.11114/jets.v5i3.2237",
+    "display_name": "Determination of Self-efficacy and Burnout State of Teachers Working in the Special Education Field in Terms of Different Variables",
+    "publication_date": "2017-02-20"
+   },
+   {
+    "id": "https://openalex.org/W2592964036",
+    "doi": "https://doi.org/10.7448/ias.20.2.21829",
+    "display_name": "Supporting people living with HIV in serodiscordant partnerships to attempt a desired pregnancy by integrating sexual and reproductive health and HIV interventions",
+    "publication_date": "2017-02-20"
+   },
+   {
+    "id": "https://openalex.org/W2590800228",
+    "doi": "https://doi.org/10.1080/02643944.2017.1290131",
+    "display_name": "Three quality professional documents to guide teachers for puberty, relationships and sexuality education",
+    "publication_date": "2017-02-20"
+   },
+   {
+    "id": "https://openalex.org/W2589686969",
+    "doi": "https://doi.org/10.1186/s12909-017-0870-y",
+    "display_name": "How do medical students differ in their interpersonal needs?",
+    "publication_date": "2017-02-21"
+   },
+   {
+    "id": "https://openalex.org/W2592302853",
+    "doi": "https://doi.org/10.7326/afed201702210",
+    "display_name": "Annals for Educators - 21 February 2017",
+    "publication_date": "2017-02-21"
+   },
+   {
+    "id": "https://openalex.org/W2596501486",
+    "doi": "https://doi.org/10.5463/dcid.v27i4.483",
+    "display_name": "Effectiveness of Role Play and Bibliotherapy in Attitude Change of Primary School Pupils towards Learners with Special Needs in Nigeria",
+    "publication_date": "2017-02-22"
+   },
+   {
+    "id": "https://openalex.org/W2592257650",
+    "doi": "https://doi.org/10.21661/r-117239",
+    "display_name": "The problems of Russian inclusive education",
+    "publication_date": "2017-02-22"
+   },
+   {
+    "id": "https://openalex.org/W4235160721",
+    "doi": "https://doi.org/10.1097/aog.0000000000001951",
+    "display_name": "Committee Opinion No. 690: Carrier Screening in the Age of Genomic Medicine",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2590135536",
+    "doi": "https://doi.org/10.1016/j.jpeds.2016.12.069",
+    "display_name": "Foster care is associated with poor mental health in children",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2590014482",
+    "doi": "https://doi.org/10.1080/19388071.2017.1280863",
+    "display_name": "Building Bridges Between Technology and Content Literacy in Special Education: Lessons Learned From Special Educators\u2019 Use of Integrated Technology and Perceived Benefits for Students",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2594618625",
+    "doi": "https://doi.org/10.1093/cid/cix067",
+    "display_name": "Crisis in Infectious Diseases: 2 Decades Later",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2591374414",
+    "doi": "https://doi.org/10.2196/mhealth.6021",
+    "display_name": "Support for Sustainable Use of Personal Health Records: Understanding the Needs of Users as a First Step Towards Patient-Driven Mobile Health",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2590369334",
+    "doi": "https://doi.org/10.1097/01.nurse.0000512885.29505.73",
+    "display_name": "The role of unlicensed assistive personnel in patient handoff",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2591308749",
+    "doi": "https://doi.org/10.12968/bjon.2017.26.4.s4",
+    "display_name": "Supporting the psychological needs of teenagers and young adults during cancer treatment: a literature review",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2590759590",
+    "doi": "https://doi.org/10.1111/ajt.14240",
+    "display_name": "View From the American Society of Reconstructive Transplantation",
+    "publication_date": "2017-02-23"
+   },
+   {
+    "id": "https://openalex.org/W2603549612",
+    "doi": "https://doi.org/10.1093/jpepsy/jsx065",
+    "display_name": "Introduction to the Special Section: Disorders of Sex Development",
+    "publication_date": "2017-02-24"
+   },
+   {
+    "id": "https://openalex.org/W2589701503",
+    "doi": "https://doi.org/10.1542/peds.2016-1450",
+    "display_name": "Pulmonary Hypertension Therapy and a Systematic Review of Efficacy and Safety of PDE-5 Inhibitors",
+    "publication_date": "2017-02-24"
+   },
+   {
+    "id": "https://openalex.org/W2618267401",
+    "doi": "https://doi.org/10.24036/rapun.v6i1.6650",
+    "display_name": "Efektivitas pelatihan be good teacher on inclusive dalam meningkatkan kemampuan Identifikasi abk",
+    "publication_date": "2017-02-24"
+   },
+   {
+    "id": "https://openalex.org/W4254358159",
+    "doi": "https://doi.org/10.4324/9781315397986-9",
+    "display_name": "Policies and Programs for Children and Families",
+    "publication_date": "2017-02-24"
+   },
+   {
+    "id": "https://openalex.org/W2596685105",
+    "doi": "https://doi.org/10.19057/jser.2017.21",
+    "display_name": "COMPARISON OF TEACHERS ATTITUDES TOWARDS INCLUSIVE EDUCATION IN BOSNIA AND HERZEGOVINA AND EUROPEAN UNION",
+    "publication_date": "2017-02-25"
+   },
+   {
+    "id": "https://openalex.org/W2592647741",
+    "doi": "https://doi.org/10.1007/s11606-016-3966-x",
+    "display_name": "Location, Location, Location: Where We Teach Primary Care Makes All the Difference",
+    "publication_date": "2017-02-27"
+   },
+   {
+    "id": "https://openalex.org/W2594701169",
+    "doi": "https://doi.org/10.1111/bjh.14460",
+    "display_name": "Incidence and outcomes of paediatric myelodysplastic syndrome in the United States",
+    "publication_date": "2017-02-27"
+   },
+   {
+    "id": "https://openalex.org/W2781103261",
+    "doi": "https://doi.org/10.7905/nvmdpu.v0i17.1599",
+    "display_name": "\u041a\u041e\u041d\u0426\u0415\u041f\u0422 \u041f\u0415\u0414\u0410\u0413\u041e\u0413\u0406\u0427\u041d\u041e\u0407 \u0420\u0415\u0410\u0411\u0406\u041b\u0406\u0422\u0410\u0426\u0406\u0407 \u0412\u0418\u0425\u041e\u0412\u0410\u041d\u0426\u0406\u0412 \u0417 \u041e\u0421\u041e\u0411\u041b\u0418\u0412\u0418\u041c\u0418 \u041e\u0421\u0412\u0406\u0422\u041d\u0406\u041c\u0418 \u041f\u041e\u0422\u0420\u0415\u0411\u0410\u041c\u0418 \u0412 \u0421\u0423\u0427\u0410\u0421\u041d\u041e\u041c\u0423 \u041f\u0420\u041e\u0424\u0415\u0421\u0406\u0419\u041d\u041e-\u041f\u0415\u0414\u0410\u0413\u041e\u0413\u0406\u0427\u041d\u041e\u041c\u0423 \u0414\u0418\u0421\u041a\u0423\u0420\u0421\u0406",
+    "publication_date": "2017-02-27"
+   },
+   {
+    "id": "https://openalex.org/W2589143788",
+    "doi": "https://doi.org/10.1093/rheumatology/kew509",
+    "display_name": "Building the future of rheumatology: the role of national and international networks",
+    "publication_date": "2017-02-27"
+   },
+   {
+    "id": "https://openalex.org/W2594267604",
+    "doi": "https://doi.org/10.1002/aet2.10032",
+    "display_name": "Telesimulation: A Paradigm Shift for Simulation Education",
+    "publication_date": "2017-02-28"
+   },
+   {
+    "id": "https://openalex.org/W2606837076",
+    "doi": "https://doi.org/10.15171/hpr.2017.07",
+    "display_name": "New Wave of Sexually-Transmitted HIV in Iran",
+    "publication_date": "2017-02-28"
+   },
+   {
+    "id": "https://openalex.org/W574988857",
+    "doi": "https://doi.org/10.1111/hir.12171",
+    "display_name": "Supporting the library and information needs of UWE health and social care students on placement",
+    "publication_date": "2017-02-28"
+   },
+   {
+    "id": "https://openalex.org/W2780240884",
+    "doi": null,
+    "display_name": "Strategies used and challenges encountered in supporting pupils with English as an additional language, in primary science",
+    "publication_date": "2017-02-28"
+   },
+   {
+    "id": "https://openalex.org/W2602365552",
+    "doi": "https://doi.org/10.1111/nyas.13328",
+    "display_name": "Meeting nutritional needs in the first 1000 days: a place for small\u2010quantity lipid\u2010based nutrient supplements",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2601540762",
+    "doi": null,
+    "display_name": "Principals Perceptions of their Knowledge in Special Education",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2750512234",
+    "doi": null,
+    "display_name": "Designing an Effective Approach to Sport for the Integration in Higher Education Institutions (the Effects of Yoga Practice)",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2602962128",
+    "doi": "https://doi.org/10.3310/phr05010",
+    "display_name": "Increasing boys\u2019 and girls\u2019 intentions to avoid teenage pregnancy: a cluster randomised controlled feasibility trial of an interactive video drama-based intervention in post-primary schools in Northern Ireland",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2594079563",
+    "doi": "https://doi.org/10.1097/jom.0000000000000974",
+    "display_name": "Global Trends in Occupational Medicine: Results of the International Occupational Medicine Society Collaborative Survey",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2749022349",
+    "doi": null,
+    "display_name": "Special Aspects of Psycho-Physiological Reactions of Different Skillfulness Athletes, Practicing Martial Arts",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2624796029",
+    "doi": "https://doi.org/10.1097/md.0000000000006388",
+    "display_name": "Incidental thyroid nodules on thoracic contrast-enhanced computed tomography in clinical practice during a 10-year period: Characteristics, clinical outcomes, and factors contributing to further evaluation",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2591644039",
+    "doi": "https://doi.org/10.1352/2326-6988-5.1.1",
+    "display_name": "Engagement for Students With Severe Intellectual Disability: The Need for a Common Definition in Inclusive Education",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2606026745",
+    "doi": "https://doi.org/10.1017/s0008423917000178",
+    "display_name": "Four Conversations We Need To Have About Teaching and Learning in Canadian Political Science",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2593148466",
+    "doi": "https://doi.org/10.1093/eurheartj/ehx075",
+    "display_name": "Challenges in translating tissue engineered heart valves into clinical practice",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2596658957",
+    "doi": "https://doi.org/10.7205/milmed-d-16-00083",
+    "display_name": "Pertussis Outbreak Among Soldiers During Basic Training: The Need for Updated Protocols",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2593642668",
+    "doi": "https://doi.org/10.1352/2326-6988-5.1.60",
+    "display_name": "Future Education Leaders' Needs in Serving Students With Severe Disabilities: A Call for Intentional Preparation",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W3003344876",
+    "doi": "https://doi.org/10.1249/fit.0000000000000274",
+    "display_name": "Building Motivation From Basic Needs: Choose, Accomplish, Connect",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2978578529",
+    "doi": "https://doi.org/10.1044/leader.scm.22032017.30",
+    "display_name": "The Unique Speech Needs of Children in Poverty",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2595835307",
+    "doi": "https://doi.org/10.21125/inted.2017.0475",
+    "display_name": "COMBINING PEDAGOGICAL STRATEGIES AND ICT SUPPORT FOR FOSTERING THE DIGITALIZED AGENTIC LEARNER",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2595847042",
+    "doi": "https://doi.org/10.1177/0308575916684996",
+    "display_name": "The quality of medical information given to prospective intercountry adopters in England",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2736902939",
+    "doi": "https://doi.org/10.21125/edulearn.2017.1856",
+    "display_name": "REAL ESTATE EDUCATION IN NIGERIA: THE NEED FOR NEW PARADIGMS",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2745237779",
+    "doi": "https://doi.org/10.18884/00000825",
+    "display_name": "Implications for Teacher Training and Support for Inclusive Education in Cambodia: An Empirical Case Study in a Developing Country",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2598874413",
+    "doi": "https://doi.org/10.3929/ethz-a-010869230",
+    "display_name": "Meet the need \u2013 The role of vocational education and training for the youth labour market",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2593698391",
+    "doi": null,
+    "display_name": "Development and Evaluation of the Online Watershed Learning System (OWLS)",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2597250906",
+    "doi": "https://doi.org/10.21125/inted.2017.1665",
+    "display_name": "LOOK&SPEAK UP TO ICF (INTERNATIONAL CLASSIFICATION OF FUNCTIONING, DISABILITY AND HEALTH) AN INTERDISCIPLINARY QUALITATIVE RESEARCH ON INCLUSIVE LEARNING EFFECTIVENESS OF EYE TRACKING SYSTEMS FOR PUPILS WITH SPECIAL NEEDS, IN VENETO, ACCORDING TO ICF PERSPECTIVE",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2601759908",
+    "doi": "https://doi.org/10.1136/bmjspcare-2017-00133.38",
+    "display_name": "P-38 See one, do one, teach one!: preparation of hospice/specialist palliative care unit doctors as medical educators",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2603935028",
+    "doi": "https://doi.org/10.16922/wje.19.1.9",
+    "display_name": "Reflections on an Action Research Project: Improving Understanding of Art Terminology with a Low-ability Year 8 Class",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2608872850",
+    "doi": null,
+    "display_name": "A holistic approach to training for inclusionin physical education: policy, practice,challenges and solutions",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2737697056",
+    "doi": "https://doi.org/10.21125/edulearn.2017.1604",
+    "display_name": "LEMA AS A DIGITAL OBJECT MANIPULATION LEARNING ENVIRONMENT",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2738948088",
+    "doi": "https://doi.org/10.21125/edulearn.2017.1450",
+    "display_name": "INNOVATIVE AND INTEGRATED NEW SOLUTIONS FOR SUSTAINABLE EMPLOYABILITY PROJECT",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2752607160",
+    "doi": "https://doi.org/10.22054/jpe.2017.7723",
+    "display_name": "Scanning of developmental-interactive implications for the education of students with hearing damage.",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2920996705",
+    "doi": null,
+    "display_name": "Towards the sustainable control of neglected tropical diseases in Asia",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2939244550",
+    "doi": null,
+    "display_name": "Inclusion Practices: The Mainstream Classroom and Support Groups",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W4245287771",
+    "doi": "https://doi.org/10.5325/utopianstudies.28.1.0205",
+    "display_name": "West of Center: Art and the Counterculture Experiment in America, 1965\u20131977",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W4407167451",
+    "doi": null,
+    "display_name": "Conditions for inclusive education from the viewpoint of headmasters",
+    "publication_date": "2017-03-01"
+   },
+   {
+    "id": "https://openalex.org/W2594564900",
+    "doi": "https://doi.org/10.21763/tjfmpc.295638",
+    "display_name": "Investigation of the Effect of Level of Family Needs Coverage that Nursing Care Given to Family with Disabled Children",
+    "publication_date": "2017-03-02"
+   },
+   {
+    "id": "https://openalex.org/W2591864438",
+    "doi": "https://doi.org/10.1111/aas.12875",
+    "display_name": "Trauma outcome research \u2013 More is needed",
+    "publication_date": "2017-03-02"
+   },
+   {
+    "id": "https://openalex.org/W2625562504",
+    "doi": null,
+    "display_name": "Keeping language in place: from Dene transitional-immersion at school to a local Dene teacher education program",
+    "publication_date": "2017-03-02"
+   },
+   {
+    "id": "https://openalex.org/W2613366640",
+    "doi": null,
+    "display_name": "STEM Integration Module In Teaching And Learning with Visual Arts Education: A Needs Of Analysis",
+    "publication_date": "2017-03-03"
+   },
+   {
+    "id": "https://openalex.org/W2592413306",
+    "doi": "https://doi.org/10.1080/08856257.2017.1297570",
+    "display_name": "Challenges and dilemmas \u2013 a conceptual approach to children\u2019s diversity in school",
+    "publication_date": "2017-03-05"
+   },
+   {
+    "id": "https://openalex.org/W2591929957",
+    "doi": "https://doi.org/10.1111/ldrp.12131",
+    "display_name": "Special Education Teachers Integrating Reading with Eighth Grade U.S. History Content",
+    "publication_date": "2017-03-06"
+   },
+   {
+    "id": "https://openalex.org/W2593158417",
+    "doi": "https://doi.org/10.1016/j.edurev.2017.02.004",
+    "display_name": "Academic achievement of students without special educational needs in inclusive classrooms: A meta-analysis",
+    "publication_date": "2017-03-07"
+   },
+   {
+    "id": "https://openalex.org/W2594441810",
+    "doi": "https://doi.org/10.1145/3017680.3017708",
+    "display_name": "Computing with CORGIS: Diverse, Real-world Datasets for Introductory Computing",
+    "publication_date": "2017-03-07"
+   },
+   {
+    "id": "https://openalex.org/W2591618544",
+    "doi": "https://doi.org/10.1007/s10897-017-0080-0",
+    "display_name": "Special Issue Introduction: Dealing with Psychological and Social Complexity in Genetic Counseling",
+    "publication_date": "2017-03-07"
+   },
+   {
+    "id": "https://openalex.org/W4251135846",
+    "doi": "https://doi.org/10.1145/3095781.3017708",
+    "display_name": "Computing with CORGIS: Diverse, Real-world Datasets for Introductory Computing",
+    "publication_date": "2017-03-08"
+   },
+   {
+    "id": "https://openalex.org/W2602908089",
+    "doi": "https://doi.org/10.5281/zenodo.375954",
+    "display_name": "Mathematically Gifted Students: Their Characteristics And Unique Needs",
+    "publication_date": "2017-03-08"
+   },
+   {
+    "id": "https://openalex.org/W2594900021",
+    "doi": "https://doi.org/10.1001/jamaoncol.2017.0368",
+    "display_name": "Patients\u2019 and Parents\u2019 Needs, Attitudes, and Perceptions About Early Palliative Care Integration in Pediatric Oncology",
+    "publication_date": "2017-03-09"
+   },
+   {
+    "id": "https://openalex.org/W2593439527",
+    "doi": "https://doi.org/10.1002/pits.22013",
+    "display_name": "BURNOUT IN SPECIAL NEEDS TEACHERS AT KINDERGARTEN AND PRIMARY SCHOOL: INVESTIGATING THE ROLE OF PERSONAL RESOURCES AND WORK WELLBEING",
+    "publication_date": "2017-03-09"
+   },
+   {
+    "id": "https://openalex.org/W2610370432",
+    "doi": null,
+    "display_name": "Biblioteca escolar inclusiva e leitura para todos",
+    "publication_date": "2017-03-09"
+   },
+   {
+    "id": "https://openalex.org/W2592374124",
+    "doi": "https://doi.org/10.1016/j.sapharm.2017.03.004",
+    "display_name": "Organizational readiness for change: Preceptor perceptions regarding early immersion of student pharmacists in health-system practice",
+    "publication_date": "2017-03-10"
+   },
+   {
+    "id": "https://openalex.org/W2594434881",
+    "doi": "https://doi.org/10.5296/ije.v9i1.10915",
+    "display_name": "Elementary School Teachers' Attitude towards Including Students with Special Educational Needs into Regular Public Schools in Saudi Arabia",
+    "publication_date": "2017-03-10"
+   },
+   {
+    "id": "https://openalex.org/W2595441644",
+    "doi": "https://doi.org/10.1177/0308518x17696317",
+    "display_name": "\u201cEveryone knows me \u2026. I sort of like move about\u201d: The friendships and encounters of young people with Special Educational Needs in different school settings",
+    "publication_date": "2017-03-12"
+   },
+   {
+    "id": "https://openalex.org/W2595083707",
+    "doi": "https://doi.org/10.1016/j.midw.2017.03.005",
+    "display_name": "The internet as a source of information used by women after childbirth to meet their need for information: A web-based survey",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W2610319770",
+    "doi": "https://doi.org/10.1186/s41239-017-0050-5",
+    "display_name": "A quantitative approach to pre-service primary school teachers\u2019 attitudes towards collaborative learning with video games: previous experience with video games can make the difference",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W2606676626",
+    "doi": "https://doi.org/10.21214/kecse.2017.17.1.67",
+    "display_name": "Concepts of Engagement in Inclusive Settings and Literature Review on Intervention of Engagement of Preschoolers with Disabilities",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W2607203320",
+    "doi": "https://doi.org/10.21702/rpj.2016.4.15",
+    "display_name": "\u041e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u0432\u0437\u0430\u0438\u043c\u043e\u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0439 \u0432 \u0441\u0435\u043c\u044c\u0435 \u0432 \u0441\u0432\u044f\u0437\u0438 \u0441 \u0432\u044b\u0440\u0430\u0436\u0435\u043d\u043d\u043e\u0441\u0442\u044c\u044e \u0441\u043e\u0446\u0438\u0430\u043b\u044c\u043d\u043e-\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043f\u043e\u0442\u0440\u0435\u0431\u043d\u043e\u0441\u0442\u0435\u0439 \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u0435\u0439",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W2607237040",
+    "doi": "https://doi.org/10.21214/kecse.2017.17.1.147",
+    "display_name": "A Study on Application Method in the Field of Poetry Education of Young Children with Developmental Delays: With a Special Reference to the Trend of Experimental Research Designs of Early Childhood Poetry Education",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W7110603623",
+    "doi": null,
+    "display_name": "Domain-specificity of Need for Coginition in Secondary School Students",
+    "publication_date": "2017-03-14"
+   },
+   {
+    "id": "https://openalex.org/W4249227969",
+    "doi": "https://doi.org/10.1002/14651858.cd003664.pub4",
+    "display_name": "Infant formulas containing hydrolysed protein for prevention of allergic disease and food allergy",
+    "publication_date": "2017-03-15"
+   },
+   {
+    "id": "https://openalex.org/W2595378569",
+    "doi": "https://doi.org/10.1016/j.jpedsurg.2017.03.021",
+    "display_name": "Hypotension and the need for transfusion in pediatric blunt spleen and liver injury: An ATOMAC + prospective study",
+    "publication_date": "2017-03-16"
+   },
+   {
+    "id": "https://openalex.org/W2612005260",
+    "doi": "https://doi.org/10.1093/ije/dyx051",
+    "display_name": "Data Resource Profile: Seeding Success: a cross-sectoral data resource for early childhood health and development research in Australian Aboriginal and non-Aboriginal children",
+    "publication_date": "2017-03-16"
+   },
+   {
+    "id": "https://openalex.org/W2596054572",
+    "doi": "https://doi.org/10.1007/s10758-017-9311-6",
+    "display_name": "Factors Influencing Teachers\u2019 Attitudes Toward Mobile Technology Integration in K-12",
+    "publication_date": "2017-03-17"
+   },
+   {
+    "id": "https://openalex.org/W2596203267",
+    "doi": "https://doi.org/10.1086/691117",
+    "display_name": "Associations between Violence in School and at Home and Education Outcomes in Rural Malawi: A Longitudinal Analysis",
+    "publication_date": "2017-03-17"
+   },
+   {
+    "id": "https://openalex.org/W2596291667",
+    "doi": "https://doi.org/10.1080/1034912x.2017.1291919",
+    "display_name": "Supporting Disability Education through a Combination of Special Schools and Disability-Inclusive Schools in the Pacific Islands",
+    "publication_date": "2017-03-17"
+   },
+   {
+    "id": "https://openalex.org/W2597190422",
+    "doi": "https://doi.org/10.1002/pbc.26484",
+    "display_name": "Chemotherapy safety standards: A pediatric perspective",
+    "publication_date": "2017-03-17"
+   },
+   {
+    "id": "https://openalex.org/W2599025745",
+    "doi": "https://doi.org/10.1111/bcp.13218",
+    "display_name": "Pharmacogenomic screening for anthracycline\u2010induced cardiotoxicity in childhood cancer",
+    "publication_date": "2017-03-19"
+   },
+   {
+    "id": "https://openalex.org/W7136819120",
+    "doi": "https://doi.org/10.15069/00001234",
+    "display_name": "\u7279\u5225\u306a\u652f\u63f4\u304c\u5fc5\u8981\u306a\u5e7c\u5150\u306e\u65e9\u671f\u767a\u898b\u30fb\u65e9\u671f\u652f\u63f4\u306b\u95a2\u3059\u308b\u7814\u7a76 : \uff15\u6b73\u5150\u5065\u8a3a\u3068\u990a\u8b77\u6559\u8aed\u306e\u5f79\u5272\u306e\u8ab2\u984c\u5206\u6790",
+    "publication_date": "2017-03-19"
+   },
+   {
+    "id": "https://openalex.org/W2601017462",
+    "doi": "https://doi.org/10.1111/cch.12451",
+    "display_name": "Specific language impairment is associated with maternal and family factors",
+    "publication_date": "2017-03-20"
+   },
+   {
+    "id": "https://openalex.org/W2593713696",
+    "doi": "https://doi.org/10.1080/1743727x.2017.1299124",
+    "display_name": "The meta-aggregative approach to qualitative evidence synthesis: a worked example on experiences of pupils with special educational needs in inclusive education",
+    "publication_date": "2017-03-20"
+   }
+  ],
+  "group_by": []
+ },
+ "attempts": []
+}
