@@ -58,7 +58,7 @@ The October findings are useful background, but those queries should not be trea
 
 ## First discovery: “unscreened” was outside the screening block
 
-The initial adapted query, labelled **D** in the audit, required “diabetic” near “retinopathy”, “eye” or “retina”, together with screening terms. It returned 3,103 results and recovered 114/130 benchmark records.
+The initial adapted query, **[Condition-proximity text search][D]** (D in the audit), required “diabetic” near “retinopathy”, “eye” or “retina”, together with screening terms. It returned 3,103 results and recovered 114/130 indexed benchmark records, or 112/131 original records.
 
 The source Embase strategy supplied another route: diabetes terms combined with eye terms near screening or care terms. Restoring that route recovered more records. One remaining miss was [Felfeli and colleagues' paper](https://pubmed.ncbi.nlm.nih.gov/35577027/), *Prevalence and predictors for being unscreened for diabetic retinopathy: a population-based study over a decade*.
 
@@ -84,51 +84,79 @@ The expression validated. But the returned query object treated `topic is T10170
 
 OQL is the expression submitted to the API. The OpenAlex Query Object, or OQO, records its structured interpretation. Looking at that object showed which fields and operators the API had actually used. Here, the parser had accepted a legal text search with a meaning I did not intend.
 
-Moving the topic condition to the `where` level repaired that mistake. In the E comparison, the reported count rose from **3,701 to 5,574**, and benchmark recovery rose from **126 to 127**. Felfeli was recovered.
+Moving the topic condition to the `where` level repaired that mistake. The **[Two-route text search — ineffective topic clause][Ei]** became the **[Two-route text search + retinal-topic fallback][Ec]** (the misplaced and corrected E variants in the archive). The reported count rose from **3,701 to 5,574**, and indexed benchmark recovery rose from **126/130 to 127/130**. On the original benchmark, that was **124/131 to 125/131**. Felfeli was recovered; these tests do not establish which particular fallback term matched it.
 
-That is 1,873 additional reported results for one additional known benchmark record. I did not screen the extra results, so I cannot say how many other eligible studies they contained. The interpretation and isolated test are preserved in `responses/inert_topic_validator.json` and `responses/inert_topic_alone.json` in the [same archive][livezip].
+The corrected query's logic is easier to see as three topical alternatives within the same search:
+
+```text
+Publication years 2003–2023
+AND (Text route A OR Text route B OR Retinal-topic fallback)
+AND (Eligible author country OR retained geographical terms in title/abstract/keywords)
+```
+
+**Text route A** combines “diabetic” near retinopathy, eye or retina with screening vocabulary. **Text route B** combines `diabet*` with eye/screening or eye/care proximity combinations and relevant programme or teleophthalmology alternatives. **The retinal-topic fallback** requires the primary topic *Retinal Diseases and Treatments* (`T10170`) together with screening/care vocabulary in title/abstract/keywords: `screen*`, `program*`, `care`, `utilization`, `teleophthalmolog*`, `exam*`, `check*`, `slick`, `keepsight` or `retinascreen*`.
+
+The fallback does **not** itself require `diabet*`, so it can retrieve material beyond diabetic eye screening and add substantial volume. “Fallback” means another OR branch within this query, not a later search run only after the text routes fail. This version still requires an eligible author country or retained geographical text; it has no unknown-country exception.
+
+Repairing the topic branch added 1,873 reported results for one additional known benchmark record. I did not screen the extra results, so I cannot say how many other eligible studies they contained. The interpretation and isolated test are preserved in `responses/inert_topic_validator.json` and `responses/inert_topic_alone.json` in the [same archive][livezip].
 
 The lesson I would take into another search is to inspect how an unfamiliar expression was interpreted. A successful validation response alone would not have exposed this mistake.
 
 ## Third discovery: my geographical shortcut excluded relevant records
 
-Three records still escaped corrected E: Ho (2006), Lewis (2022) and Sachdeva (2012). They lacked an author-country value in the audited metadata, and my shortened list of geographical terms did not rescue them. Ho's title names Australia's Northern Territory, which my list omitted.
+Three indexed benchmark records still escaped the two-route search with the working retinal-topic fallback: Ho (2006), Lewis (2022) and Sachdeva (2012). They lacked an author-country value in the audited metadata, and my shortened list of geographical terms did not rescue them. Ho's title names Australia's Northern Territory, which my list omitted.
 
 Author affiliation is an imperfect way to search for study setting. A relevant study may lack a resolved country, or its authors may be based outside the country studied. Conversely, an author in an eligible country can research a programme elsewhere. Place names in titles and abstracts offer another route, provided those names appear in the available text and are included in the search.
 
-A broad exception accepting unknown author country recovered all 130 benchmark records, but returned **12,985** results. A narrower exception accepted unknown country when the title contained “diabetic retinopathy screening” or “diabetic eye screening”. With the corrected topic clause, this returned **5,764** results and recovered all 130.
+A **[Topic-assisted search + broad unknown-country exception][G1]** recovered all 130 indexed benchmark records, but returned **12,985** results. The narrower **[Topic-assisted search + title-based country exception][G2]** accepted unknown author country when the title contained “diabetic retinopathy screening” or “diabetic eye screening”. With the working topic clause, this returned **5,764** results and recovered all 130.
 
-I chose those phrases after examining the missed titles. Ho's example also makes my own role in the misses clear: shortening the place-name list changed retrieval. These were not simply records missing from the database.
+I chose those phrases after examining the missed titles. This **title-based country exception** relaxes the geographical filter based on topical wording; it does not establish the study setting. Ho's example also makes my own role in the misses clear: shortening the place-name list changed retrieval. These were not simply records missing from the database.
 
 ## What the repairs changed
 
-The eight-strategy audit used the same 130 verified benchmark IDs throughout. D and corrected G2 came verbatim from the earlier draft. Other variants were reconstructed from the changes described there and executed for the audit; they are not a complete contemporaneous record of every earlier attempt.
+The eight-strategy audit used the same 130 verified benchmark IDs throughout. The condition-proximity search and topic-assisted search with the title-based country exception came verbatim from the earlier draft. Other variants were reconstructed from the changes described there and executed for the audit; they are not a complete contemporaneous record of every earlier attempt.
 
-Each label links to the exact OQL used:
+Each descriptive name links to the exact OQL used. The archive labels help locate the unchanged files and output columns:
 
-| Search strategy | API-reported results | Indexed benchmark recovered |
-|---|---:|---:|
-| [D: condition-side proximity][D] | 3,103 | 114/130 |
-| [E: second route, misplaced topic clause][Ei] | 3,701 | 126/130 |
-| [E: corrected topic clause][Ec] | 5,574 | 127/130 |
-| [G1: broad unknown-country exception][G1] | 12,985 | 130/130 |
-| [G2: narrow exception, misplaced topic clause][G2i] | 3,891 | 129/130 |
-| [G2: narrow exception, corrected topic clause][G2] | 5,764 | 130/130 |
-| [G2: corrected clause, tighter proximity distances][G2s] | 5,734 | 130/130 |
-| [Narrow exception, omit topic fallback, add `unscreen*`][final] | **3,892** | **130/130** |
+| Search strategy | Archive label | API-reported results | Indexed benchmark recovered | Original benchmark recovered |
+|---|---|---:|---:|---:|
+| [Condition-proximity text search][D] | D | 3,103 | 114/130 | 112/131 |
+| [Two-route text search — ineffective topic clause][Ei] | E, misplaced | 3,701 | 126/130 | 124/131 |
+| [Two-route text search + retinal-topic fallback][Ec] | E, corrected | 5,574 | 127/130 | 125/131 |
+| [Topic-assisted search + broad unknown-country exception][G1] | G1 | 12,985 | 130/130 | 128/131 |
+| [Two-route text search + title-based country exception — ineffective topic clause][G2i] | G2, misplaced | 3,891 | 129/130 | 127/131 |
+| [Topic-assisted search + title-based country exception][G2] | G2, corrected | 5,764 | 130/130 | 128/131 |
+| [Topic-assisted search + title-based country exception — tighter proximity][G2s] | G2, tighter | 5,734 | 130/130 | 128/131 |
+| [Text search with `unscreen*` + title-based country exception][final] | `exploratory_unscreen_no_topic` | **3,892** | **130/130** | **128/131** |
 
-The final row combines the narrow geographical exception with `unscreen*` and removes the topic fallback. It recovered all 130 benchmark records with **1,872 fewer reported results than corrected G2**. Felfeli no longer needed the working topic branch to be retrieved.
+The final row combines the title-based country exception with `unscreen*` and removes the topic fallback. It recovered all 130 indexed benchmark records with **1,872 fewer reported results than the topic-assisted version with the same exception**. Felfeli no longer needed the working topic branch to be retrieved.
+
+These are related variants, not independent demonstrations of success. The adapted family has this conceptual structure:
+
+```text
+Two-route text search + retinal-topic fallback
+  └─ Add title-based country exception
+     Topic-assisted search + title-based country exception
+       ├─ Tighten proximity → tighter topic-assisted version
+       └─ Remove topic fallback; add unscreen*
+          Text search with unscreen* + title-based country exception
+            └─ Tighten proximity → tighter unscreen* version
+```
+
+The ineffective-topic version with the title-based exception is a diagnostic counterpart: removing its ineffective clause and adding `unscreen*` also describes the conceptual change leading to the final compact strategy. The diagram describes query logic, not a complete documented chronological sequence. The **fuller Embase translation** discussed below is a separate, source-derived comparator, not the direct parent of this shortened family.
+
+For both the topic-assisted and `unscreen*` variants, **tighter proximity** means windows of 3 and 5 instead of 4 and 6, following the Ovid `adjN` → OQL `within N−1` interpretation.
 
 These changes answer different questions. It helps to make them explicit:
 
 | Change | What kind of change was it? | What the evidence supports |
 |---|---|---|
-| Move the topic condition out of `about (...)` | Repair an expression that did not implement the intended field filter. | E increased from 126/130 to 127/130, with 1,873 more reported results. |
-| Add the narrow unknown-country exception | Change the strategy after inspecting missed titles. | Corrected E to corrected G2 recovered three more benchmark records, with 190 more reported results. |
+| Move the topic condition out of `about (...)` | Repair an expression that did not implement the intended field filter. | The two-route search increased from 126/130 to 127/130 indexed records, with 1,873 more reported results. |
+| Add the title-based country exception | Change the strategy after inspecting missed titles. | Adding the exception to the working topic-assisted search recovered three more benchmark records, with 190 more reported results. |
 | Add `unscreen*` and omit the topic fallback | Change vocabulary after diagnosing a miss, and change the strategy's retrieval routes. | The final query recovered 130/130 with 3,892 reported results. |
 | Shorten the concept and place-name lists | Adapt the source strategy. | There is no complete comparison isolating every shortening decision from the other changes. |
 
-That last point is especially important when comparing the final query with the [fuller Table 8 translation][table8]. Its S1 search reportedly returned 11,257 results and recovered 127/130. Why did the shorter strategy recover more in fewer results? The later targeted repairs are part of the explanation, but this is not a controlled test of shortening alone. The strategies differ in several ways, and their response evidence is not equally complete.
+That last point is especially important when comparing the final query with the **[Fuller Embase translation][S1]** (S1 in the [Table 8 report][table8]). It reportedly returned 11,257 results and recovered 127/130 indexed records, or 125/131 original records. Why did the shorter strategy recover more in fewer results? The later targeted repairs are part of the explanation, but this is not a controlled test of shortening alone. The strategies differ in several ways, and their response evidence is not equally complete.
 
 The fuller translation report also records a useful warning: `"DES program*"`, intended to find diabetic eye screening programmes, matched French “des programmes”. The reported fix required `diabet*` with the phrase. This illustrates why transferring vocabulary into a large multidisciplinary index needs checking as well as translating operators.
 
@@ -146,7 +174,39 @@ However, the pages contained **3,892 rows and 3,891 distinct IDs**. A non-benchm
 
 The [intersection output][intersection] identifies the duplicate and records that no benchmark IDs were missing. The [full-benchmark ZIP][fullzip] contains the individual pages, so readers can check the intersection themselves.
 
-There is also a follow-up on the proximity distances. OpenAlex's [translation guide](https://help.openalex.org/how-to/search-strategies-from-other-databases/) maps Ovid `adj4` and `adj6` to `within 3` and `within 5`. The final audited query used windows of 4 and 6. On 3 November, the [tighter version][followup] was recorded as returning 3,857 results and 130/130 benchmark records. That follow-up retained query text and counts, but no raw responses. The 3,892 figure remains the main result here because its archived responses can be examined.
+There is also a follow-up on the proximity distances. OpenAlex's [translation guide](https://help.openalex.org/how-to/search-strategies-from-other-databases/) maps Ovid `adj4` and `adj6` to `within 3` and `within 5`. The final audited query used windows of 4 and 6. On 3 November, **[Text search with `unscreen*` + title-based country exception — tighter proximity][finalstrict]** was recorded as returning 3,857 results and 130/130 indexed benchmark records. That [follow-up][followup] retained query text and counts, but no raw responses. The 3,892 figure remains the main result here because its archived responses can be examined.
+
+## Which strategies could I plausibly have designed before seeing the misses?
+
+For a practical comparison, I asked which strategies returned **at most 12,000 results** while recovering **more than 95% of the original map's 131 records**. That means at least **125/131**, including the three unmatched records in the denominator. Recovering more than 95% of the 130 indexed records is a different threshold.
+
+Seven variants meet those numerical criteria. I would tentatively order them as follows, based on how plausibly a librarian could design each before examining the benchmark's missed records. This is a **qualitative assessment, not an empirically established ranking**, and positions 3–6 are particularly tentative.
+
+| Tentative rank | Strategy | Reported results | Original recovery |
+|---|---|---:|---:|
+| 1 | [Fuller Embase translation][S1] | 11,257 | 125/131 — 95.4% |
+| 2 | [Two-route text search + retinal-topic fallback][Ec] | 5,574 | 125/131 — 95.4% |
+| 3 | [Topic-assisted search + title-based country exception — tighter proximity][G2s] | 5,734 | 128/131 — 97.7% |
+| 4 | [Topic-assisted search + title-based country exception][G2] | 5,764 | 128/131 — 97.7% |
+| 5 | [Text search with `unscreen*` + title-based country exception — tighter proximity][finalstrict] | 3,857 | 128/131 — 97.7% |
+| 6 | [Text search with `unscreen*` + title-based country exception][final] | 3,892 | 128/131 — 97.7% |
+| 7 | [Two-route text search + title-based country exception — ineffective topic clause][G2i] | 3,891 | 127/131 — 96.9% |
+
+The fuller Embase translation is the most defensible source-derived baseline, although it still involves approximations, omissions and fixes. The two-route search's retinal-topic branch is a plausible search idea, but I investigated it in connection with a known miss. The variants in positions 3–6 share the same title-informed geographical exception. Their similar recovery is not independent validation of that exception. The last row retains a clause that did not do what I intended; it is useful diagnostically, but a poor model for deliberately designing a search.
+
+Adding `unscreen*` is conceptually defensible for research about screening non-attendance. In this exercise, both final variants nevertheless inherit a vocabulary repair prompted by Felfeli. I would be more concerned about generalising the shared title-based country exception than about whether a librarian could think of “unscreened”. That is why I would not put much weight on the exact ordering of positions 3–6.
+
+Design plausibility and evidence strength are separate. The 3,892-result strategy has archived raw responses and an unrestricted download. The 3,857-result follow-up retains queries and counts but lacks those responses. The fuller translation also has less complete raw-response support than the eight-strategy audit. The October experiments used different queries and cannot validate this November ranking.
+
+Several other variants fall outside this comparison:
+
+- **[Condition-proximity text search][D]** returned 3,103 results but recovered only 112/131 original records.
+- **[Two-route text search — ineffective topic clause][Ei]** returned 3,701 and recovered 124/131, or 94.7%. Its 126/130 indexed recovery does not meet the original-benchmark threshold.
+- **[Topic-assisted search + broad unknown-country exception][G1]** returned 12,985, exceeding the result limit.
+- **[Fuller Embase translation + unknown-country title route + abstractless-record fallback][S3]** (S3) returned 12,364, exceeding both 12,000 and the original 12,293 records screened.
+- **[Fuller Embase translation + unknown-country title route][S2]** (S2) was not measured separately. The Table 8 report deduces its recovery; there is no separately measured total to compare. Its title route uses condition proximity and screening vocabulary, rather than the adapted family's two exact title phrases.
+
+The **more conservative, source-derived result** is therefore 125/131 original records, or **95.4%, in 11,257 reported results**. That is 1,036 fewer than the original map's 12,293 screened records, approximately **8.4% below that volume**. It is an adapted translation, not a guaranteed minimum or a worst-case scenario. Different search dates, index contents and translation choices prevent treating the difference as demonstrated screening-time savings. These result counts describe potential screening load, not completed screening effort.
 
 ## What I would take into the next search
 
@@ -154,7 +214,9 @@ This makes me more interested in OpenAlex as a starting point for a review like 
 
 I would still plan supplementary searching. Three original benchmark records remain unmatched. The original authors' two additional discoveries also show why even a carefully assembled benchmark should not be treated as an exhaustive list of eligible research. Their citation, related-record and PubMed combination searches offer relevant possibilities beyond the Boolean strategies tested here.
 
-I would keep a record of which terms came from the review question and source strategy, and which were added after examining misses. Knowing that a geographical exception reaches three titles I have already read is useful for search development. To evaluate its wider value, I would freeze the strategy and test it on another review or update whose records had not guided those choices.
+I would keep a record of which terms came from the review question and source strategy, and which were added after examining misses. Knowing that a geographical exception reaches three titles I have already read is useful for search development. The unrestricted final search did not require benchmark IDs, and all 130 matched IDs appeared in its downloaded pages, so recovery was not merely an ID-lookup artefact. That check does not remove the bias from designing a query after examining benchmark failures.
+
+To evaluate wider usefulness, I would freeze both the fuller baseline and the compact candidate, then test them on an independent review or update whose records had not guided those choices. Randomly splitting this already-inspected benchmark would not restore that independence. This retrospective exercise does not establish that OpenAlex can replace all the sources used for a systematic review.
 
 Historical figures give a sense of scale: 3,892 reported matches is a manageable number to contemplate beside the original map's 12,293 screened records. They do not establish work saved or superiority to PubMed or Embase. Search terms, dates, index contents and the processes producing those numbers differ. Screening previously unlabelled results would also be necessary to assess relevance beyond the benchmark.
 
@@ -267,3 +329,7 @@ Passing those checks establishes consistency of the archived evidence and calcul
 [final]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/audit_2026-11-02/queries/exploratory_unscreen_no_topic.oql
 [sourcearticle]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/sources/article.txt
 [syntax]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/OQL_VALIDATION_REPORT.md
+[S1]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/queries/embase_table8_oql_2026/S1.oql
+[S2]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/queries/embase_table8_oql_2026/S2.oql
+[S3]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/queries/embase_table8_oql_2026/S3.oql
+[finalstrict]: https://github.com/aarontaycheehsien/canyouuseopenalexalone/blob/d8a0ded5bd0487f0e98383fc1f34019672b389d8/stansfield_pilot/followup_2026-11-03/queries/final_strict_adj.oql
