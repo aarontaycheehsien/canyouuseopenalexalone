@@ -19,7 +19,9 @@ Test date: **13 November 2026**. The protocol and queries were [committed and pu
 
 ## Benchmark
 
-[Christensen, Lim, Saha et al. (2020), *The cost of mental disorders: a systematic review*](https://doi.org/10.1017/S204579602000075X), Epidemiology and Psychiatric Sciences 29:e142. Open access.
+[Christensen, Lim, Saha et al. (2020), *The cost of mental disorders: a systematic review*](https://doi.org/10.1017/S204579602000075X), Epidemiology and Psychiatric Sciences 29:e161. Open access.
+
+*Correction (13 November 2026):* the article number is e161 (Crossref and OpenAlex). The frozen [protocol](PROTOCOL.md) and [source file](source_search_strategy.json) say e142; they are left unchanged because the freeze manifest hashes them.
 
 | From the PRISMA flow chart | |
 |---|---|
