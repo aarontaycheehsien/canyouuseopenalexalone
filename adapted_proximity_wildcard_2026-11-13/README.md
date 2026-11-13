@@ -42,7 +42,7 @@ Recall is in each benchmark's own unit. The frozen figures were re-scored from a
 
 - **Truncation helps where a bare word hides plurals.** The HIV gain is almost entirely `child` → `child*` (it matches the earlier single-change test, 154). Across the other reviews, blanket truncation mostly adds noise: Walker's count more than doubles for one extra reference.
 - **The special-needs strategy was already truncated throughout, with proximity, and still reached only 61/94.** Truncation cannot fix studies that are absent from OpenAlex or lack the concept words.
-- **Proximity appears not to reach OpenAlex keywords.** Both lost studies (Bao: Meijer-type motor study W2910009840; Christensen: W2170631082) matched the frozen arm only through the keywords field, where a stemmed phrase matched a keyword. Their proximity versions did not. Keep phrases as phrases when searching `title-abstract-keywords`, or add the proximity pair alongside the phrase rather than in place of it.
+- **Proximity appears not to reach OpenAlex keywords.** Both lost studies (W2910009840 in the motor-competence review, W2170631082 in the cost-of-illness review) matched the frozen arm only through the keywords field, where a stemmed phrase matched a keyword. Their proximity versions did not. Keep phrases as phrases when searching `title-abstract-keywords`, or add the proximity pair alongside the phrase rather than in place of it.
 - **No adapted arm meets both criteria that its frozen arm missed.** Precarious employment B comes closest on recall, 47/50, but at 9.9 times the authors' screening load.
 
 **Takeaway:** truncation and proximity should be applied selectively, to the words that need them. Blanket application raises the count far faster than recall.
