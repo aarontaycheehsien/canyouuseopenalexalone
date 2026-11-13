@@ -5,6 +5,8 @@
 - **Recall, all included** = found ÷ all included studies: what OpenAlex alone delivers.
 - **Recall, indexed only** = found ÷ included studies that are in OpenAlex: how well the search strategy performs on what OpenAlex holds.
 
+The not-indexed count is independent of the search strategy; the indexed-but-missed count and both recalls depend on the strategy tested (see the classification section).
+
 | Review | Included | In OpenAlex | Not indexed | Indexed but missed | Recall, all included | Recall, indexed only | Records (authors screened) |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | [Motor competence (Bao 2024)](motor_competence_benchmark_2026-11-13/README.md) | 44 | 44 (100%) | 0 | 1 | 97.7% | 97.7% | 7,807 (12,117) |
@@ -47,30 +49,34 @@
 
 Success = recall strictly above 95% of all included studies **and** records no more than the authors' unique records screened, in the same frozen arm.
 
-| Review | Target | In OpenAlex | Best within authors' load | Best at any load | Failure type | Main reason |
-|---|---:|---:|---:|---:|---|---|
-| Motor competence (Bao 2024) | 42 | 44 (100%) | 43/44 @ 7,807 | 43/44 @ 7,807 | **Pass** | Recent journal literature with consistent vocabulary |
-| Transgenerational inheritance (Walker 2018) | 245 | 257 (100%) | none | 249/257 @ 306,031 | **Recall met, load failed** | OpenAlex spans all disciplines, so the PubMed text strategy returns 4.8x the records |
-| Call-handlers' mental health (Osório 2024) | 36 | 27 (73%) | 24/37 @ 9,179 | 24/37 @ 9,179 | **Coverage makes target impossible** | 10 absent, six from a practitioner journal the authors hand-searched |
-| Bt maize (Meissle 2022) | 158 | 138 (83%) | 121/166 @ 6,775 | 121/166 @ 6,775 | **Coverage makes target impossible** | Regional journals, reports and website items absent |
-| Physical activity in primary care (Kettle 2022) | 49 | 48 (94%) | 40/51 @ 4,543 | 40/51 @ 4,543 | **Coverage makes target impossible** | Meeting abstracts and a thesis absent; scattered misses across 15 sources |
-| Special educational needs (Dalgaard 2022) | 90 | 79 (84%) | 34/94 @ 18,946 | 61/94 @ 151,147 | **Coverage makes target impossible** | Dissertations and reports absent; weak special-needs wording |
-| Health workers' mental health, EMRO (Salahi Ardekani 2025) | 85 | 85 (96%) | 82/89 @ 7,176 | 82/89 @ 7,176 | **Coverage leaves no margin, plus search misses** | 4 regional-journal studies absent; 3 vocabulary misses (anesthetists, pre-hospital staff, no country named) |
-| Precarious employment (Pulford 2022) | 48 | 48 (96%) | 38/50 @ 8,140 | 44/50 @ 42,085 | **Coverage leaves no margin, plus search misses** | Health block too narrow; missing abstracts |
-| Smoke-free policy support (Boderie 2023) | 102 | 103 (96%) | 89/107 @ 4,013 | 93/107 @ 7,307 | **Coverage leaves no margin, plus search misses** | Support wording too varied; 4 reports absent |
-| NLP for cognitive impairment (Shankar 2025) | 49 | 51 (100%) | 46/51 @ 4,725 | 46/51 @ 4,725 | **Search failure: vocabulary and metadata, near miss** | Two misdated records; three avoid NLP terms |
-| Anxiety and eating disorders (Trompeter 2025) | 52 | 54 (100%) | 48/54 @ 9,424 | 48/54 @ 9,424 | **Search failure: vocabulary, near miss** | Undergraduate samples without youth wording; one misdated record |
-| Ethnicity and diabetes adherence (Asiri 2023) | 39 | 41 (100%) | 36/41 @ 3,418 | 36/41 @ 3,418 | **Search failure: concept only in full text** | Ethnicity reported only as a covariate; abstracts missing |
-| Cost of mental disorders (Christensen 2020) | 136 | 141 (99%) | none | 116/143 @ 40,605 | **Search failure: vocabulary, and load failed** | Inconsistent cost wording; missing abstracts; bibliography-found studies |
-| HIV care in children (Haw 2025) | 181 | 190 (100%) | 135/190 @ 7,897 | 135/190 @ 7,897 | **Search failure: indexing-dependent concept** | Age concept relied on subject headings |
-| VR for stroke rehabilitation (Soleimani 2024) | 53 | 54 (98%) | 35/55 @ 1,536 | 35/55 @ 1,536 | **Search failure: review scope wider than its vocabulary** | Robotic and brain-computer-interface trials counted as VR never say so |
+**What each verdict depends on.** Only coverage is independent of the search strategy: whether an included study is in OpenAlex at all. Every other verdict depends on the strategy tested. For the first eight reviews, that is the authors' published strategy translated by this branch's mechanical rules (fields, stemming, proximity conversion, subject headings dropped). For the seven later reviews, it is a search designed by the author of this test before the included studies were seen. A different translation or a different searcher could change any verdict marked *strategy as tested*; the recall figures for those are what this strategy achieved, not what OpenAlex permits.
+
+| Review | Target | In OpenAlex | Best within authors' load | Best at any load | Strategy behind the verdict | Failure type | Main reason |
+|---|---:|---:|---:|---:|---|---|---|
+| Motor competence (Bao 2024) | 42 | 44 (100%) | 43/44 @ 7,807 | 43/44 @ 7,807 | Published strategy, mechanically translated | **Pass (strategy as tested)** | Recent journal literature with consistent vocabulary |
+| Transgenerational inheritance (Walker 2018) | 245 | 257 (100%) | none | 249/257 @ 306,031 | Published strategy, mechanically translated | **Recall met, load failed (strategy as tested)** | OpenAlex spans all disciplines, so the PubMed text strategy returns 4.8x the records |
+| Call-handlers' mental health (Osório 2024) | 36 | 27 (73%) | 24/37 @ 9,179 | 24/37 @ 9,179 | Designed search (author of this test) | **Coverage makes target impossible (independent of strategy)** | 10 absent, six from a practitioner journal the authors hand-searched |
+| Bt maize (Meissle 2022) | 158 | 138 (83%) | 121/166 @ 6,775 | 121/166 @ 6,775 | Published strategy, mechanically translated | **Coverage makes target impossible (independent of strategy)** | Regional journals, reports and website items absent |
+| Physical activity in primary care (Kettle 2022) | 49 | 48 (94%) | 40/51 @ 4,543 | 40/51 @ 4,543 | Published strategy, mechanically translated | **Coverage makes target impossible (independent of strategy)** | Meeting abstracts and a thesis absent; scattered misses across 15 sources |
+| Special educational needs (Dalgaard 2022) | 90 | 79 (84%) | 34/94 @ 18,946 | 61/94 @ 151,147 | Published strategy, mechanically translated | **Coverage makes target impossible (independent of strategy)** | Dissertations and reports absent; weak special-needs wording |
+| Health workers' mental health, EMRO (Salahi Ardekani 2025) | 85 | 85 (96%) | 82/89 @ 7,176 | 82/89 @ 7,176 | Designed search (author of this test) | **Coverage leaves no margin, plus search misses (strategy as tested)** | 4 regional-journal studies absent; 3 vocabulary misses (anesthetists, pre-hospital staff, no country named) |
+| Precarious employment (Pulford 2022) | 48 | 48 (96%) | 38/50 @ 8,140 | 44/50 @ 42,085 | Published strategy, mechanically translated | **Coverage leaves no margin, plus search misses (strategy as tested)** | Health block too narrow; missing abstracts |
+| Smoke-free policy support (Boderie 2023) | 102 | 103 (96%) | 89/107 @ 4,013 | 93/107 @ 7,307 | Published strategy, mechanically translated | **Coverage leaves no margin, plus search misses (strategy as tested)** | Support wording too varied; 4 reports absent |
+| NLP for cognitive impairment (Shankar 2025) | 49 | 51 (100%) | 46/51 @ 4,725 | 46/51 @ 4,725 | Designed search (author of this test) | **Search failure (strategy as tested): vocabulary and metadata, near miss** | Two misdated records; three avoid NLP terms |
+| Anxiety and eating disorders (Trompeter 2025) | 52 | 54 (100%) | 48/54 @ 9,424 | 48/54 @ 9,424 | Designed search (author of this test) | **Search failure (strategy as tested): vocabulary, near miss** | Undergraduate samples without youth wording; one misdated record |
+| Ethnicity and diabetes adherence (Asiri 2023) | 39 | 41 (100%) | 36/41 @ 3,418 | 36/41 @ 3,418 | Designed search (author of this test) | **Search failure (strategy as tested): concept only in full text** | Ethnicity reported only as a covariate; abstracts missing |
+| Cost of mental disorders (Christensen 2020) | 136 | 141 (99%) | none | 116/143 @ 40,605 | Published strategy, mechanically translated | **Search failure (strategy as tested): vocabulary, and load failed** | Inconsistent cost wording; missing abstracts; bibliography-found studies |
+| HIV care in children (Haw 2025) | 181 | 190 (100%) | 135/190 @ 7,897 | 135/190 @ 7,897 | Published strategy, mechanically translated | **Search failure (strategy as tested): indexing-dependent concept** | Age concept relied on subject headings |
+| VR for stroke rehabilitation (Soleimani 2024) | 53 | 54 (98%) | 35/55 @ 1,536 | 35/55 @ 1,536 | Designed search (author of this test) | **Search failure (strategy as tested): review scope wider than its vocabulary** | Robotic and brain-computer-interface trials counted as VR never say so |
 
 | Failure type | Reviews |
 |---|---:|
-| Pass | 1 |
-| Recall met, load failed | 1 |
-| Coverage makes target impossible | 4 |
-| Coverage leaves no margin, plus search misses | 3 |
-| Search failure | 6 |
+| Pass (strategy as tested) | 1 |
+| Recall met, load failed (strategy as tested) | 1 |
+| Coverage makes target impossible (independent of strategy) | 4 |
+| Coverage leaves no margin, plus search misses (strategy as tested) | 3 |
+| Search failure (strategy as tested) | 6 |
+
+**Read the table this way.** The four coverage-impossible verdicts would stand for any OpenAlex search. The pass, the load failure, the three no-margin verdicts and the six search failures are verdicts on the strategies tested here. A blind redesign of the first eight reviews' searches by a searcher who has not seen their included studies would test how much those verdicts move.
 
 Generated by `python3 recall_split.py` from each benchmark's archived matches and run observations; data in [`recall_split.csv`](recall_split.csv).

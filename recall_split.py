@@ -84,15 +84,16 @@ def main():
         best_within = max(within, key=lambda v: (v[0], -v[1])) if within else None
         key = b.split("_")[0]
         if best_within and best_within[0] >= thr:
-            cls = "Pass"
+            cls = "Pass (strategy as tested)"
         elif k >= thr:
-            cls = "Recall met, load failed"
+            cls = "Recall met, load failed (strategy as tested)"
         elif indexed < thr:
-            cls = "Coverage makes target impossible"
+            cls = "Coverage makes target impossible (independent of strategy)"
         elif indexed - thr <= 1 and n - indexed >= 2:   # real coverage loss leaving no room for any search miss
-            cls = "Coverage leaves no margin, plus search misses"
+            cls = "Coverage leaves no margin, plus search misses (strategy as tested)"
         else:
-            cls = "Search failure: " + SUBTYPE.get(key, "search")
+            cls = "Search failure (strategy as tested): " + SUBTYPE.get(key, "search")
+        tested = "Designed search (author of this test)" if arm.startswith("S") else "Published strategy, mechanically translated"
         des = None
         if b.startswith(DESIGNED):
             sa = max((a for a in scored if a.startswith("S")), key=lambda a: (scored[a][0], -scored[a][1]))
@@ -104,7 +105,7 @@ def main():
                      "designed_arm": des[0] if des else None, "designed_found": des[1] if des else None, "designed_records": des[2] if des else None,
                      "mechanical_found": mech[1] if mech else None, "mechanical_records": mech[2] if mech else None,
                      "threshold": thr, "best_within_load_found": best_within[0] if best_within else None,
-                     "best_within_load_records": best_within[1] if best_within else None, "classification": cls, "main_reason": REASON[key]})
+                     "best_within_load_records": best_within[1] if best_within else None, "classification": cls, "strategy_tested": tested, "main_reason": REASON[key]})
     rows.sort(key=lambda r: -r["recall_indexed"])
     with open(ROOT / "recall_split.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader()
@@ -117,6 +118,8 @@ def main():
              f"{miss_n} ({100 * miss_n / (miss_n + miss_s):.0f}%) are not indexed in OpenAlex; {miss_s} ({100 * miss_s / (miss_n + miss_s):.0f}%) are indexed but the search missed them.**", "",
              "- **Recall, all included** = found ÷ all included studies: what OpenAlex alone delivers.",
              "- **Recall, indexed only** = found ÷ included studies that are in OpenAlex: how well the search strategy performs on what OpenAlex holds.", "",
+             "The not-indexed count is independent of the search strategy; the indexed-but-missed count and both recalls depend on the strategy tested "
+             "(see the classification section).", "",
              "| Review | Included | In OpenAlex | Not indexed | Indexed but missed | Recall, all included | Recall, indexed only | Records (authors screened) |",
              "|---|---:|---:|---:|---:|---:|---:|---:|"]
     for r in rows:
@@ -138,15 +141,24 @@ def main():
                          f"{r['designed_found']}/{r['in_openalex']} ({pct(r['designed_found'] / r['in_openalex'])}) @ {r['designed_records']:,} |")
     lines += ["", "## Classification against both success criteria", "",
               "Success = recall strictly above 95% of all included studies **and** records no more than the authors' unique records screened, in the same frozen arm.", "",
-              "| Review | Target | In OpenAlex | Best within authors' load | Best at any load | Failure type | Main reason |", "|---|---:|---:|---:|---:|---|---|"]
+              "**What each verdict depends on.** Only coverage is independent of the search strategy: whether an included study is in OpenAlex at all. "
+              "Every other verdict depends on the strategy tested. For the first eight reviews, that is the authors' published strategy translated by this branch's "
+              "mechanical rules (fields, stemming, proximity conversion, subject headings dropped). For the seven later reviews, it is a search designed by the author "
+              "of this test before the included studies were seen. A different translation or a different searcher could change any verdict marked "
+              "*strategy as tested*; the recall figures for those are what this strategy achieved, not what OpenAlex permits.", "",
+              "| Review | Target | In OpenAlex | Best within authors' load | Best at any load | Strategy behind the verdict | Failure type | Main reason |", "|---|---:|---:|---:|---:|---|---|---|"]
     order = ["Pass", "Recall met, load failed", "Coverage makes target impossible", "Coverage leaves no margin, plus search misses"]
-    for r in sorted(rows, key=lambda r: (order.index(r["classification"]) if r["classification"] in order else 4, -r["recall_indexed"])):
+    base = lambda c: c.split(" (")[0].split(":")[0]  # noqa: E731
+    for r in sorted(rows, key=lambda r: (order.index(base(r["classification"])) if base(r["classification"]) in order else 4, -r["recall_indexed"])):
         bw = f"{r['best_within_load_found']}/{r['included']} @ {r['best_within_load_records']:,}" if r["best_within_load_found"] is not None else "none"
         lines.append(f"| {r['benchmark']} | {r['threshold']} | {r['in_openalex']} ({r['in_openalex'] / r['included']:.0%}) | {bw} | "
-                     f"{r['found']}/{r['included']} @ {r['records']:,} | **{r['classification']}** | {r['main_reason']} |")
+                     f"{r['found']}/{r['included']} @ {r['records']:,} | {r['strategy_tested']} | **{r['classification']}** | {r['main_reason']} |")
     import collections
     cnt = collections.Counter(r["classification"].split(":")[0] for r in rows)
-    lines += ["", "| Failure type | Reviews |", "|---|---:|"] + [f"| {k} | {v} |" for k, v in sorted(cnt.items(), key=lambda kv: (order.index(kv[0]) if kv[0] in order else 4))]
+    lines += ["", "| Failure type | Reviews |", "|---|---:|"] + [f"| {k} | {v} |" for k, v in sorted(cnt.items(), key=lambda kv: (order.index(base(kv[0])) if base(kv[0]) in order else 4))]
+    lines += ["", "**Read the table this way.** The four coverage-impossible verdicts would stand for any OpenAlex search. The pass, the load failure, "
+              "the three no-margin verdicts and the six search failures are verdicts on the strategies tested here. A blind redesign of the first eight reviews' "
+              "searches by a searcher who has not seen their included studies would test how much those verdicts move."]
     lines += ["", "Generated by `python3 recall_split.py` from each benchmark's archived matches and run observations; data in [`recall_split.csv`](recall_split.csv).", ""]
     (ROOT / "RECALL_SPLIT.md").write_text("\n".join(lines))
     print("\n".join(lines[:4]))
