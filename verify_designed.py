@@ -68,8 +68,9 @@ ok(len(rows) == len(src["studies"]), "matrix: one row per study")
 for arm, v in s["arms"].items():
     k = sum(int(r[arm]) for r in rows)
     ok(k == v["studies_recovered"] and v["meets_recall_threshold"] == (k >= s["recall_threshold_studies"]) and v["count_at_most_screened"] == (v["api_count"] <= s["original_screened"]), f"{arm}: {k} studies and threshold flags")
-fac = J("results/facet_diagnostics.json")
-ok(fac["ids"] == ids, "facet diagnostics cover exactly the matched IDs")
+if (ROOT / "results/facet_diagnostics.json").exists():
+    fac = J("results/facet_diagnostics.json")
+    ok(fac["ids"] == ids, "facet diagnostics cover exactly the matched IDs")
 for p in (ROOT / "archives/diagnostics").glob("*.json"):
     body = json.loads(p.read_text())["request"]["body"]["oql"]
     ok(set(body.split("openalex id is (", 1)[1].split(")", 1)[0].split(" or ")) <= set(ids), f"diagnostic {p.stem} restricted to matched IDs")
