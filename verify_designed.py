@@ -1,4 +1,4 @@
-"""Offline verifier for the two designed-search benchmarks (standard library only, no network).
+"""Offline verifier for the seven designed-search benchmarks (standard library only, no network).
 
     python3 verify_designed.py anxiety_eating_benchmark_2026-11-13
     python3 verify_designed.py ethnicity_adherence_benchmark_2026-11-13

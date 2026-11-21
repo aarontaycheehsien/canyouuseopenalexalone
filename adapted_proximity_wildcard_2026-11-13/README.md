@@ -52,3 +52,4 @@ Recall is in each benchmark's own unit. The frozen figures were re-scored from a
 - `adapt.py`: rules and query generation; `queries/` holds the adapted OQL and `plan.json`.
 - `run_adapted.py`: free validation, count and restricted membership; `archives/` holds request bodies, statuses, responses and UTC times (no headers or key).
 - `archives/diagnose/`: the two loss diagnostics.
+- `verify.py`: offline check (needs `nltk`). Regenerates the adapted queries and replays the runner from the archives alone to reproduce `results/adapted_results.json`. `python3 adapted_proximity_wildcard_2026-11-13/verify.py` passes all 55 checks.
