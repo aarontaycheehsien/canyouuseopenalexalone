@@ -114,7 +114,7 @@ def main():
     miss_n, miss_s = N - I, I - K
     pct = lambda x: f"{100 * x:.1f}%"  # noqa: E731
     lines = ["# Not indexed versus missed by the search", "",
-             f"**Across the 15 benchmarks on branch `opus5.5`, {miss_n + miss_s} included studies were not retrieved by the best frozen OpenAlex search. "
+             f"**Across the 15 benchmarks, {miss_n + miss_s} included studies were not retrieved by the best frozen OpenAlex search. "
              f"{miss_n} ({100 * miss_n / (miss_n + miss_s):.0f}%) are not indexed in OpenAlex; {miss_s} ({100 * miss_s / (miss_n + miss_s):.0f}%) are indexed but the search missed them.**", "",
              "- **Recall, all included** = found ÷ all included studies: what OpenAlex alone delivers.",
              "- **Recall, indexed only** = found ÷ included studies that are in OpenAlex: how well the search strategy performs on what OpenAlex holds.", "",

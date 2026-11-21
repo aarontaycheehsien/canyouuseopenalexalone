@@ -1,6 +1,6 @@
 # Not indexed versus missed by the search
 
-**Across the 15 benchmarks on branch `opus5.5`, 256 included studies were not retrieved by the best frozen OpenAlex search. 69 (27%) are not indexed in OpenAlex; 187 (73%) are indexed but the search missed them.**
+**Across the 15 benchmarks, 256 included studies were not retrieved by the best frozen OpenAlex search. 69 (27%) are not indexed in OpenAlex; 187 (73%) are indexed but the search missed them.**
 
 - **Recall, all included** = found ÷ all included studies: what OpenAlex alone delivers.
 - **Recall, indexed only** = found ÷ included studies that are in OpenAlex: how well the search strategy performs on what OpenAlex holds.
