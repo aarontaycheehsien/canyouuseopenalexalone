@@ -21,6 +21,7 @@ The reports on this branch use the Stansfield diabetic eye screening benchmark. 
 | [VR stroke rehabilitation designed-search test](vr_stroke_benchmark_2026-11-13/README.md) | Soleimani et al. (2024): 5 databases, 7,381 screened, 55 RCTs, 54 in OpenAlex. Mechanical 22/55 at 18,063; designed 35/55 at 1,536. 18 misses are robotic or BCI trials the review classes as VR. |
 | [NLP cognitive-impairment designed-search test](nlp_cognitive_benchmark_2026-11-13/README.md) | Shankar et al. (2025): 8 databases, 5,033 screened, 51 studies, all in OpenAlex. Mechanical 25/51 at 1,027; designed 46/51 at 4,725 and 45/51 at 4,033. |
 | [Not indexed vs missed by the search, and failure classification](RECALL_SPLIT.md) | All 15 benchmarks, with each review classified against recall > 95% and records ≤ the authors' screening load: 4 coverage-impossible (independent of search strategy); 1 pass, 1 load failure, 3 coverage-no-margin and 6 search failures, all verdicts on the strategies as tested (translated published strategies or the author's designed searches). |
+| [21–22 November 2026 smart conversion of the eight mechanical translations](smart_conversion_2026-11-21/README.md) | Published subject headings restored (MeSH, with Emtree and other thesauri mapped to MeSH), OpenAlex keywords added through their alternative labels, and a fallback for works without an abstract. Post hoc for the eight reviews; rules and queries were frozen before scoring. Recall rose in four reviews and fell in none: HIV 135→163/190 (7,848→11,302 records), special educational needs 60→67/94, precarious employment 44→47/50, physical activity 40→41/51. No new review met both criteria. Blind holdout (Noetel et al. 2024, exercise for depression): 192/218 citations in OpenAlex, so >95% is impossible; frozen arms 181 and 174/218, smart arm 186/218 at 158,416 records against 13,115 screened. Offline verifier: 309/309 checks. |
 | [Health workers' mental health, EMRO designed-search test](hcw_mental_emro_benchmark_2026-11-13/README.md) | Salahi Ardekani et al. (2025): 3 databases, 11,572 screened, 89 studies, 85 in OpenAlex. Mechanical 77/89 at 15,916; designed with the review's region added 82/89 at 7,176. |
 | [Call-handlers' mental health designed-search test](call_handlers_benchmark_2026-11-13/README.md) | Osório et al. (2024): 10 databases plus hand-search, 11,571 screened, 37 articles, 27 in OpenAlex (six absent from one practitioner journal). Mechanical 17/37 at 4,677; designed 24/37 at 9,179. |
 | [3 November follow-up checks](stansfield_pilot/followup_2026-11-03/README.md) | Live re-run of the final query (3,892 results, 130/130) and a version using OpenAlex's adjN → within N−1 rule (3,857 results, 130/130). |
@@ -28,3 +29,21 @@ The reports on this branch use the Stansfield diabetic eye screening benchmark. 
 | [1 November Embase Table 8 translation](stansfield_pilot/queries/embase_table8_oql_2026/README.md) | A separate translation of the published Embase strategy and its benchmark results. |
 | [October pilot](stansfield_pilot/PILOT_REPORT.md) | Original search arms, source retrieval and known-study membership. |
 | [Cursor-order study](stansfield_pilot/cursor_study_2026-10-04/CURSOR_ORDER_REPORT.md) | Ranking and pagination evidence. |
+
+## Smart conversion: what restoring subject headings adds
+
+The first eight benchmarks translated each review's published strategy mechanically and dropped its subject-heading lines, because OpenAlex has no thesaurus. The [smart-conversion arm](smart_conversion_2026-11-21/README.md) puts back what can be reconstructed from the published strategies alone.
+
+**Restoring headings helps where reviews published them, and only there.**
+- **Where headings were published, recall rose.** In Haw 2025 (HIV in children), the restored headings and keywords added 28 studies (which concepts contributed was not measured), taking recall from 71.1% to 85.8%. The cost was 44% more records, leaving the search just over the authors' screening load. Dalgaard 2022 (special educational needs) and Kettle 2022 (physical activity) gained 7 studies and 1 study.
+- **Elsewhere, almost nothing changed.** Walker, Bao, Meissle and Christensen published no usable headings. Their results barely moved, and only the keyword rule applied. Pulford's 3 extra studies came from keyword synonyms alone, at twice the records.
+- **No study was lost** in any review, and none of the seven reviews that failed the success criteria before now passes. Bao 2024 passes with either arm.
+
+**Text from the other databases' strategies added nothing.** Where several strategies were published, their text terms were already in the frozen translation. Whatever the mechanical translations missed, it was not text that another database's published strategy would have supplied.
+
+**On a review nobody had inspected, the gain was small and expensive.** For Noetel et al. (2024), the rules and queries were pushed before the citation list was opened. Only 88.1% of its citations are in OpenAlex, so the target was impossible for any search. Among those indexed, the new arm found 96.9% against 94.3% for the best frozen arm, at twice the records and 12 times the authors' screening load.
+
+**Limits.**
+- For the eight existing reviews the test is post hoc: their misses were known when the rules were written.
+- Emtree and the other thesauri are approximated through MeSH; 39 of the 114 headings had no MeSH equivalent and are searched only as their label phrase.
+- Headings become text, so a work is found only if its title, abstract or keywords use the heading's words. Human indexing is not reproduced.
