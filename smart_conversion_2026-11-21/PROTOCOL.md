@@ -124,3 +124,22 @@ Noetel's arms A, B and the new arm are scored as its 12 November protocol specif
 The success criteria are the repository's existing ones: recall above 95%, and a count no larger than the authors' screening load.
 
 No query is revised after scoring. Diagnostics of misses may follow, labelled as such.
+
+## Amendments made before the freeze
+
+### Amendment 1 (22 November 2026, 00:20 UTC): no keyword lookups for abbreviations
+
+**When and on what evidence.** This was decided after the R4 keyword lookups were archived and before any query was validated, counted or scored. It rests only on the keyword records, which contain no work titles and no benchmark information.
+
+**The problem.** OpenAlex lists acronyms among keywords' alternative labels. Applied to abbreviations, R4 therefore added unrelated keywords:
+
+- "BP" matched blood pressure, black phosphorus and backpropagation (Christensen),
+- "GAD" matched glutamic acid decarboxylase (Christensen),
+- "gp" matched globus pallidus (Kettle),
+- "ccg" matched chemically converted graphene (Kettle).
+
+These came to 88 keyword matches in Christensen's mental-disorders concept and 59 in Kettle's primary-care concept.
+
+**The change.** R4 skips all-capital terms and single words of five characters or fewer. This is consistent with R3, which already treats abbreviations as exact words. The abbreviations themselves remain text search terms.
+
+**Effect.** The matches fall to 3 and 13 in those two concepts. Matches elsewhere are mostly unchanged, for example "marijuana" to "cannabis" and "insecure employment" to "precarious employment".

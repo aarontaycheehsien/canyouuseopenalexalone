@@ -12,6 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 OFFLINE = os.environ.get("SMART_OFFLINE") == "1"
+RETRIES = int(os.environ.get("SMART_RETRIES", "8"))
 
 
 def _path(kind, key):
@@ -43,7 +44,7 @@ def _call(kind, url, body):
         headers["Content-Type"] = "application/json"
     if "api.openalex.org" in url:
         headers["Authorization"] = "Bearer proxy-injected"   # replaced by the session proxy; never stored
-    for attempt in range(8):
+    for attempt in range(RETRIES):
         try:
             with urllib.request.urlopen(urllib.request.Request(url, data=data, headers=headers), timeout=180) as r:
                 status, resp = r.status, json.loads(r.read() or b"null")
@@ -55,13 +56,13 @@ def _call(kind, url, body):
             except ValueError:
                 resp = None
             if status in (429, 500, 502, 503, 504):
-                if attempt < 7:
+                if attempt < RETRIES - 1:
                     time.sleep(min(60, 2 ** (attempt + 1)))
                     continue
                 raise SystemExit(f"giving up after retries: HTTP {status} {url}")   # never archived
             break
         except (urllib.error.URLError, ConnectionError, TimeoutError, OSError):
-            if attempt == 7:
+            if attempt == RETRIES - 1:
                 raise
             time.sleep(2 ** attempt)
     p.parent.mkdir(parents=True, exist_ok=True)

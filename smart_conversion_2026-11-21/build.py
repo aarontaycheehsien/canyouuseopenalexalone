@@ -76,7 +76,14 @@ def r4_terms(group):
     """Inputs to the R4 keyword lookup: plain terms of a topic concept, base and heading-derived."""
     if group["design"]:
         return []
-    return sorted(set(plain_terms(group["text"]) + plain_terms(" OR ".join(group["extra"]))))
+    terms = set(plain_terms(group["text"]) + plain_terms(" OR ".join(group["extra"])))
+    return sorted(t for t in terms if not is_abbreviation(t))
+
+
+def is_abbreviation(t):
+    """Amendment 1 (22 Nov 2026): R4 skips abbreviations, whose keyword alternative labels conflate
+    unrelated expansions (BP -> blood pressure). All-capital terms and single words of <= 5 characters."""
+    return (t.isupper() and len(t) > 1) or (" " not in t and len(t) <= 5)
 
 
 def keyword_clauses(group, kwmap):
